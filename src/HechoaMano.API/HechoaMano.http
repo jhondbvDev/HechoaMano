@@ -1,0 +1,6 @@
+@HechoaMano_HostAddress = http://localhost:5046
+
+GET {{HechoaMano_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
