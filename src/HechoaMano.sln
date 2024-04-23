@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HechoaMano.API", "HechoaMano\HechoaMano.API.csproj", "{A1515768-73D2-429F-AFDC-987E6F44B943}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HechoaMano.Domain", "HechoaMano.Domain\HechoaMano.Domain.csproj", "{B7C16EF3-5DD6-4612-ABCA-ADB3CA8D2D93}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HechoaMano.Domain", "HechoaMano.Domain\HechoaMano.Domain.csproj", "{B7C16EF3-5DD6-4612-ABCA-ADB3CA8D2D93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HechoaMano.Application", "HechoaMano.Application\HechoaMano.Application.csproj", "{178A0011-6A44-4A06-8DF9-5612821869AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HechoaMano.Application", "HechoaMano.Application\HechoaMano.Application.csproj", "{178A0011-6A44-4A06-8DF9-5612821869AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HechoaMano.Infrastructure", "HechoaMano.Infrastructure\HechoaMano.Infrastructure.csproj", "{2BF7C3A1-7EF3-4936-9840-3CF78579FFC0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HechoaMano.Infrastructure", "HechoaMano.Infrastructure\HechoaMano.Infrastructure.csproj", "{2BF7C3A1-7EF3-4936-9840-3CF78579FFC0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HechoaMano.API", "HechoaMano.API\HechoaMano.API.csproj", "{159F8B41-A941-435F-9264-E54E6E6D847C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A1515768-73D2-429F-AFDC-987E6F44B943}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A1515768-73D2-429F-AFDC-987E6F44B943}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A1515768-73D2-429F-AFDC-987E6F44B943}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A1515768-73D2-429F-AFDC-987E6F44B943}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B7C16EF3-5DD6-4612-ABCA-ADB3CA8D2D93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B7C16EF3-5DD6-4612-ABCA-ADB3CA8D2D93}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7C16EF3-5DD6-4612-ABCA-ADB3CA8D2D93}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +29,10 @@ Global
 		{2BF7C3A1-7EF3-4936-9840-3CF78579FFC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2BF7C3A1-7EF3-4936-9840-3CF78579FFC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2BF7C3A1-7EF3-4936-9840-3CF78579FFC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{159F8B41-A941-435F-9264-E54E6E6D847C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{159F8B41-A941-435F-9264-E54E6E6D847C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{159F8B41-A941-435F-9264-E54E6E6D847C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{159F8B41-A941-435F-9264-E54E6E6D847C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
