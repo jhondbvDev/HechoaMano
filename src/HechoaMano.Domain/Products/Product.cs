@@ -21,7 +21,7 @@ namespace HechoaMano.Domain.Products
             SellPrice = sellPrice;
             BuyPrice = buyPrice;
 
-            //Name = $"{family.Name} {subFamily.Name} {FamilyType?.Name ?? string.Empty}  {size.Name} {region.Name}";
+            Name = $"{family.Name} {subFamily.Name} {FamilyType?.Name ?? string.Empty}  {size.Name} {region.Name}";
         }
 
         private Product() { }
