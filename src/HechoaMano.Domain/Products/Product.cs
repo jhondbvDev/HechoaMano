@@ -1,40 +1,65 @@
-﻿using HechoaMano.Domain.Entities;
-using HechoaMano.Domain.Primitives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HechoaMano.Domain.Common.Models;
+using HechoaMano.Domain.Products.Entities;
+using HechoaMano.Domain.Products.ValueObjects;
 
-namespace HechoaMano.Domain.Products
+namespace HechoaMano.Domain.Products;
+
+public sealed class Product : AggregateRoot<ProductId>
 {
-    public sealed class Product : AggregateRoot
+    public string Name { get; }
+    public FamilyType FamilyType { get; }
+    public Family Family { get; }
+    public SubFamily SubFamily { get; }
+    public Size Size { get; }
+    public Region Region { get; }
+    public decimal SellPrice { get; }
+    public decimal BuyPrice { get; }
+    public DateTime CreatedDate { get;}
+    public DateTime UpdatedDate { get; }
+
+    private Product(
+        ProductId id,
+        FamilyType familyType,
+        Family family,
+        SubFamily subFamily,
+        Size size,
+        Region region,
+        decimal sellPrice,
+        decimal buyPrice,
+        DateTime createdDate,
+        DateTime updatedDate) : base(id)
     {
-        public Product(ProductId id,string name, Family family, SubFamily subFamily, Size size, Region region, decimal sellPrice, decimal buyPrice)
-        {
-            Id = id;
-            Name = name;
-            Family = family;
-            SubFamily = subFamily;
-            Size = size;
-            Region = region;
-            SellPrice = sellPrice;
-            BuyPrice = buyPrice;
+        Name = $"{family.Name} {subFamily.Name} {familyType.Name} {size.Name} {region.Name}";
+        FamilyType = familyType;
+        Family = family;
+        SubFamily = subFamily;
+        Size = size;
+        Region = region;
+        SellPrice = sellPrice;
+        BuyPrice = buyPrice;
+        CreatedDate = createdDate;
+        UpdatedDate = updatedDate;
+    }
 
-            Name = $"{family.Name} {subFamily.Name} {FamilyType?.Name ?? string.Empty}  {size.Name} {region.Name}";
-        }
-
-        private Product() { }
-
-        public ProductId Id { get; private set; }
-        public string Name { get; private set; }
-        public FamilyType FamilyType { get; set; }
-        public Family Family { get; private set; }
-        public SubFamily SubFamily { get; private set; }
-        public Size Size { get; private set; }  
-        public Region Region { get; private set; }
-
-        public decimal SellPrice { get; set; }
-        public decimal BuyPrice { get; set; }
+    public static Product Create(
+        FamilyType familyType,
+        Family family,
+        SubFamily subFamily,
+        Size size,
+        Region region,
+        decimal sellPrice,
+        decimal buyPrice) 
+    {
+        return new(
+            ProductId.CreateUnique(),
+            familyType,
+            family,
+            subFamily,
+            size,
+            region,
+            sellPrice,
+            buyPrice,
+            DateTime.Now,
+            DateTime.Now);
     }
 }

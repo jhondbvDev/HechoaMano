@@ -3,8 +3,8 @@ using System.Reflection;
 
 namespace HechoaMano.API
 {
-    public class PresentationAssemblyReference
+    public class APIAssemblyReference
     {
-        internal static readonly Assembly Assembly = typeof(PresentationAssemblyReference).Assembly;
+        internal static readonly Assembly Assembly = typeof(APIAssemblyReference).Assembly;
     }
 }

@@ -1,34 +1,45 @@
-﻿using HechoaMano.Domain.Entities;
-using HechoaMano.Domain.Products;
+﻿using HechoaMano.Domain.Products;
+using HechoaMano.Domain.Products.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace HechoaMano.Infrastructure.Persistence.Configuration
+namespace HechoaMano.Infrastructure.Persistence.Configuration;
+
+public class ProductConfiguration : IEntityTypeConfiguration<Product>
 {
-    public class ProductConfiguration : IEntityTypeConfiguration<Product>
+    public void Configure(EntityTypeBuilder<Product> builder)
     {
-        public void Configure(EntityTypeBuilder<Product> builder)
+        builder.HasKey(x => x.Id);
+        builder.Property(x => x.Id).HasConversion(
+            Id => Id.Value,
+            value => ProductId.Create(value));
+
+        builder.OwnsOne(x => x.FamilyType, FamilyType =>
         {
-            builder.HasKey(x => x.Id);
-            builder.Property(x => x.Id).HasConversion(
-                Id => Id.Value,
-                value => new ProductId(value));
+            FamilyType.Property(x => x.Id).HasColumnName("FamilyTypeId");
+        });
 
-            //builder.OwnsOne(x => x.Family,family => {
-            //    family.Property(x => x.Id).HasColumnName("FamilyId");
-            //});
-            //builder.OwnsOne(x => x.SubFamily, subFamily =>
-            //{
-            //    subFamily.Property(x => x.Name).HasColumnName("SubFamily");
-            //});
-            //builder.Property(x => x.Name).HasColumnName("Name");
-            //builder.Property(x => x.Description).HasColumnName("Description");
-            //builder.Property(x => x.Price).HasColumnName("Price");
-            //builder.Property(x => x.Stock).HasColumnName("Stock");
-            //builder.Property(x => x.Image).HasColumnName("Image");
-            //builder.Property(x => x.CreatedAt).HasColumnName("CreatedAt");
-            //builder.Property(x => x.UpdatedAt).HasColumnName("UpdatedAt");
+        builder.OwnsOne(x => x.Family, family =>
+        {
+            family.Property(x => x.Id).HasColumnName("FamilyId");
+        });
 
-        }
+        builder.OwnsOne(x => x.SubFamily, subFamily =>
+        {
+            subFamily.Property(x => x.Id).HasColumnName("SubFamilyId");
+        });
+
+        builder.OwnsOne(x => x.Size, size =>
+        {
+            size.Property(x => x.Id).HasColumnName("SizeId");
+        });
+
+        builder.OwnsOne(x => x.Region, region =>
+        {
+            region.Property(x => x.Id).HasColumnName("RegionId");
+        });
+
+        builder.Property(x => x.SellPrice);
+        builder.Property(x => x.BuyPrice);
     }
 }
