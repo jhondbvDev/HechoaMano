@@ -1,15 +1,17 @@
 ﻿using HechoaMano.Application.Products.Abstractions;
 using HechoaMano.Application.Products.Common;
+using Mapster;
 using MediatR;
 
 namespace HechoaMano.Application.Products.Queries.GetSubFamilies;
 
-public class GetSubFamiliesQueryHandler(IProductRepository productRepository) : IRequestHandler<GetSubFamiliesQuery, List<SubFamilyResult>>
+public class GetSubFamiliesQueryHandler(IProductRepository repository) : IRequestHandler<GetSubFamiliesQuery, List<SubFamilyResult>>
 {
-    private readonly IProductRepository _productRepository = productRepository;
+    private readonly IProductRepository _repository = repository ?? throw new ArgumentNullException(nameof(repository));
 
     public async Task<List<SubFamilyResult>> Handle(GetSubFamiliesQuery request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var subFamilies = await _repository.GetAllSubFamiliesAsync();
+        return subFamilies.ConvertAll(s => s.Adapt<SubFamilyResult>());
     }
 }

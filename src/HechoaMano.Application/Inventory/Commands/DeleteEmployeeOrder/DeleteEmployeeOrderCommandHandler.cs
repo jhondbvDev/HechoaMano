@@ -1,11 +1,14 @@
-﻿using MediatR;
+﻿using HechoaMano.Application.Inventory.Abstractions;
+using MediatR;
 
 namespace HechoaMano.Application.Inventory.Commands.DeleteEmployeeOrder;
 
-public class DeleteEmployeeOrderCommandHandler : IRequestHandler<DeleteEmployeeOrderCommand>
+public class DeleteEmployeeOrderCommandHandler(IInventoryRepository repository) : IRequestHandler<DeleteEmployeeOrderCommand>
 {
-    public Task Handle(DeleteEmployeeOrderCommand request, CancellationToken cancellationToken)
+    private readonly IInventoryRepository _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+
+    public async Task Handle(DeleteEmployeeOrderCommand request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        await _repository.DeleteEmployeeOrderAsync(request.OrderId);
     }
 }

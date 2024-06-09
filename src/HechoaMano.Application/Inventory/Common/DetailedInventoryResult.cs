@@ -1,3 +1,4 @@
 ﻿namespace HechoaMano.Application.Inventory.Common;
 
-public record DetailedInventoryResult;
+//TODO: Details are pending
+public record DetailedInventoryResult(Guid ControlId);

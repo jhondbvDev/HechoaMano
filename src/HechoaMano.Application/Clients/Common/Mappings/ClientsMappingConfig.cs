@@ -9,9 +9,5 @@ public class ClientsMappingConfig : IRegister
     {
         config.NewConfig<Client, ClientResult>()
             .Map(dest => dest.Id, source => source.Id.Value);
-            
-
-        config.NewConfig<Client, ClientNamesResult>()
-            .Map(dest => dest.Id, source => source.Id.Value);
     }
 }

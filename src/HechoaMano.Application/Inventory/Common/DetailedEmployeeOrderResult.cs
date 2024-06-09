@@ -1,3 +1,4 @@
 ﻿namespace HechoaMano.Application.Inventory.Common;
 
-public record DetailedEmployeeOrderResult;
+//TODO: Details are pending
+public record DetailedEmployeeOrderResult(Guid OrderId, string EmployeeName, decimal TotalPrice);

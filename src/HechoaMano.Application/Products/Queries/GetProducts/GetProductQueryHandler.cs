@@ -11,7 +11,7 @@ public class GetProductsQueryHandler(IProductRepository productRepository) : IRe
 
     public async Task<List<ProductResult>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
     {
-        var products = await _productRepository.GetAll();
+        var products = await _productRepository.GetAllProductsAsync();
         return products.ConvertAll(p => p.Adapt<ProductResult>());
     }
 }

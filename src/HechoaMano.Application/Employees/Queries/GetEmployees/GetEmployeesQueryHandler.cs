@@ -1,12 +1,18 @@
-﻿using HechoaMano.Application.Employees.Common;
+﻿using HechoaMano.Application.Employees.Abstractions;
+using HechoaMano.Application.Employees.Common;
+using Mapster;
 using MediatR;
 
 namespace HechoaMano.Application.Employees.Queries.GetEmployees;
 
-public class GetEmployeesQueryHandler : IRequestHandler<GetEmployeesQuery, List<EmployeeResult>>
+public class GetEmployeesQueryHandler(IEmployeeRepository repository) : IRequestHandler<GetEmployeesQuery, List<EmployeeResult>>
 {
-    public Task<List<EmployeeResult>> Handle(GetEmployeesQuery request, CancellationToken cancellationToken)
+    private readonly IEmployeeRepository _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+
+    public async Task<List<EmployeeResult>> Handle(GetEmployeesQuery request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var employees = await _repository.GetAllAsync();
+
+        return employees.ConvertAll(e => e.Adapt<EmployeeResult>());
     }
 }

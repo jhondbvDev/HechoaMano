@@ -20,8 +20,4 @@
     <ProjectReference Include="..\HechoaMano.Infrastructure\HechoaMano.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Contracts\Inventory\" />
-  </ItemGroup>
-
 </Project>

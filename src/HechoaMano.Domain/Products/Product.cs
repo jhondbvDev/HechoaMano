@@ -12,6 +12,7 @@ public sealed class Product : AggregateRoot<ProductId>
     public SubFamily SubFamily { get; }
     public Size Size { get; }
     public Region Region { get; }
+    public ProductStock ProductStock { get; }
     public decimal SellPrice { get; }
     public decimal BuyPrice { get; }
     public DateTime CreatedDate { get;}
@@ -24,6 +25,7 @@ public sealed class Product : AggregateRoot<ProductId>
         SubFamily subFamily,
         Size size,
         Region region,
+        ProductStock productStock,
         decimal sellPrice,
         decimal buyPrice,
         DateTime createdDate,
@@ -37,6 +39,7 @@ public sealed class Product : AggregateRoot<ProductId>
         Region = region;
         SellPrice = sellPrice;
         BuyPrice = buyPrice;
+        ProductStock = productStock;
         CreatedDate = createdDate;
         UpdatedDate = updatedDate;
     }
@@ -47,16 +50,18 @@ public sealed class Product : AggregateRoot<ProductId>
         SubFamily subFamily,
         Size size,
         Region region,
+        ProductStock productStock,
         decimal sellPrice,
         decimal buyPrice) 
     {
         return new(
-            ProductId.CreateUnique(),
+            ProductId.Create(),
             familyType,
             family,
             subFamily,
             size,
             region,
+            productStock,
             sellPrice,
             buyPrice,
             DateTime.Now,

@@ -1,12 +1,17 @@
-﻿using HechoaMano.Application.Inventory.Common;
+﻿using HechoaMano.Application.Inventory.Abstractions;
+using HechoaMano.Application.Inventory.Common;
+using Mapster;
 using MediatR;
 
 namespace HechoaMano.Application.Inventory.Queries.GetInventoryControls;
 
-public class GetInventoryControlsQueryHandler : IRequestHandler<GetInventoryControlsQuery, List<InventoryResult>>
+public class GetInventoryControlsQueryHandler(IInventoryRepository repository) : IRequestHandler<GetInventoryControlsQuery, List<InventoryResult>>
 {
-    public Task<List<InventoryResult>> Handle(GetInventoryControlsQuery request, CancellationToken cancellationToken)
+    private readonly IInventoryRepository _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+
+    public async Task<List<InventoryResult>> Handle(GetInventoryControlsQuery request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var inventoryControls = await _repository.GetAllInventoryControlsAsync();
+        return inventoryControls.ConvertAll(i => i.Adapt<InventoryResult>());
     }
 }

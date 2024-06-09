@@ -8,6 +8,8 @@ namespace HechoaMano.Application.Authentication.Queries.Authenticate;
 
 public class AuthenticateQueryHandler(IJwtTokenGenerator tokenGenerator) : IRequestHandler<AuthenticateQuery, AuthenticationResult>
 {
+    private readonly IJwtTokenGenerator _tokenGenerator = tokenGenerator ?? throw new ArgumentNullException(nameof(tokenGenerator));
+
     private const string basicAuthorizationPrefix = "Basic";
 
     public async Task<AuthenticationResult> Handle(AuthenticateQuery query, CancellationToken cancellationToken)
@@ -25,7 +27,7 @@ public class AuthenticateQueryHandler(IJwtTokenGenerator tokenGenerator) : IRequ
         var mvpUserGuid = Guid.NewGuid();
         var mvpUserName = "Usuario de Prueba";
 
-        var token = tokenGenerator.GenerateToken(mvpUserGuid, mvpUserName);
+        var token = _tokenGenerator.GenerateToken(mvpUserGuid, mvpUserName);
 
         var result = new AuthenticationResult(mvpUserName, token);
 
@@ -43,6 +45,6 @@ public class AuthenticateQueryHandler(IJwtTokenGenerator tokenGenerator) : IRequ
         var username = usernamePassword[..seperatorIndex];
         var password = usernamePassword[(seperatorIndex + 1)..];
 
-        return username == "Test" && password == "Test";
+        return username == "Admin" && password == "Admin";
     }
 }

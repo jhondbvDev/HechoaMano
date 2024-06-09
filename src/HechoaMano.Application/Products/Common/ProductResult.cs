@@ -6,7 +6,8 @@ public record ProductResult(
     string FamilyName,
     string SubFamilyName,
     string RegionName,
-    string? FamilyTypeName,
+    string FamilyTypeName,
     string SizeName,
+    int Stock,
     decimal SellPrice,
     decimal BuyPrice);

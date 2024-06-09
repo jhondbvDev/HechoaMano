@@ -8,11 +8,13 @@ namespace HechoaMano.API.Controllers;
 [ApiController]
 public class AuthenticationController(ISender mediator) : ControllerBase
 {
+    private readonly ISender _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+
     [HttpPost]
     public async Task<IActionResult> Authenticate()
     {
         var query = new AuthenticateQuery(Request.Headers.Authorization);
-        var result = await mediator.Send(query);
+        var result = await _mediator.Send(query);
 
         return Ok(result);
     }

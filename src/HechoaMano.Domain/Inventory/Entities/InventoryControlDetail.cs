@@ -16,6 +16,11 @@ public sealed class InventoryControlDetail : Entity<Guid>
         SystemQuantity = systemQuantity;
     }
 
+    public static InventoryControlDetail Create(ProductId productId, int countedQuantity, int systemQuantity)
+    {
+        return new(Guid.NewGuid(), productId, countedQuantity, systemQuantity);
+    }
+
     public static InventoryControlDetail Create(Guid id, ProductId productId, int countedQuantity, int systemQuantity)
     {
         return new(id, productId, countedQuantity, systemQuantity);

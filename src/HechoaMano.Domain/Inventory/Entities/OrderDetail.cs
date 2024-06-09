@@ -16,6 +16,11 @@ public sealed class OrderDetail : Entity<Guid>
         Price = price;
     }
 
+    public static OrderDetail Create(ProductId productId, int quantity, decimal price)
+    {
+        return new(Guid.NewGuid(), productId, quantity, price);
+    }
+
     public static OrderDetail Create(Guid id, ProductId productId, int quantity, decimal price) 
     {
         return new(id, productId, quantity, price);

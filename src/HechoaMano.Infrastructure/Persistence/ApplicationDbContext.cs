@@ -5,18 +5,32 @@ using HechoaMano.Domain.Primitives.Abstractions;
 using HechoaMano.Domain.Products.Entities;
 using HechoaMano.Domain.Common.Models;
 using HechoaMano.Domain.Products;
+using HechoaMano.Domain.Clients;
+using HechoaMano.Domain.Employees;
+using HechoaMano.Domain.Inventory.Aggregates;
+using HechoaMano.Domain.Inventory.Entities;
 
 namespace HechoaMano.Infrastructure.Persistence;
 
-public class ApplicationDbContext : DbContext, IApplicationDbContext, IUnitOfWork
+public class ApplicationDbContext(DbContextOptions options, IPublisher publisher) : DbContext(options), IApplicationDbContext, IUnitOfWork
 {
-    public DbSet<Product> Products { get; set; }
-    private readonly IPublisher _publisher;
+    private readonly IPublisher _publisher = publisher ?? throw new ArgumentException(nameof(publisher));
 
-    public ApplicationDbContext(DbContextOptions options, IPublisher publisher) : base(options)
-    {
-        _publisher = publisher ?? throw new ArgumentException(nameof(publisher));
-    }
+    public DbSet<Product> Products { get; set; }
+    public DbSet<Client> Clients { get; set; }
+    public DbSet<Employee> Employees { get; set; }
+    public DbSet<ClientOrder> ClientOrders { get; set; }
+    public DbSet<OrderDetail> ClientOrderDetails { get; set; }
+    public DbSet<EmployeeOrder> EmployeeOrders { get; set; }
+    public DbSet<OrderDetail> EmployeeOrderDetails { get; set; }
+    public DbSet<InventoryControl> InventoryControls { get; set; }
+    public DbSet<InventoryControlDetail> InventoryControlDetails { get; set; }
+    public DbSet<Family> Families { get; set; }
+    public DbSet<FamilyType> FamilyTypes { get; set; }
+    public DbSet<ProductStock> ProductStocks { get; set; }
+    public DbSet<Region> Regions { get; set; }
+    public DbSet<Size> Sizes { get; set; }
+    public DbSet<SubFamily> SubFamilies { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -47,7 +61,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext, IUnitOfWor
         return result;
     }
 
-    private void SeedFamily(ModelBuilder modelBuilder)
+    private static void SeedFamily(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Family>().HasData(new List<Family>() { 
             Family.Create(Guid.Parse("791ea326-1110-4952-b6a9-b5c1762e1fb0"), "BOLSO"),
@@ -66,10 +80,11 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext, IUnitOfWor
             Family.Create(Guid.Parse("9cbce495-90e9-4958-8a4f-cb0705f8dd0e"), "GORRA"),
             Family.Create(Guid.Parse("8aaf977d-a876-49c5-8005-1e0eca0205f1"), "CIGARRILLERA"),
             Family.Create(Guid.Parse("77d8eedd-173f-4259-b74e-0b0af1b70561"), "PLATO"),
-            Family.Create(Guid.Parse("9aa075c1-8da7-46e0-bbbe-eed2d0f2515f"), "DESTAPADOR")});
+            Family.Create(Guid.Parse("9aa075c1-8da7-46e0-bbbe-eed2d0f2515f"), "DESTAPADOR")}
+        );
     }
 
-    private void SeedSubFamily(ModelBuilder modelBuilder)
+    private static void SeedSubFamily(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<SubFamily>().HasData(
             SubFamily.Create(Guid.Parse("d52044c1-6fa7-496b-8deb-204cb124f12c"), "PIRAMIDE"),
@@ -114,10 +129,10 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext, IUnitOfWor
             SubFamily.Create(Guid.Parse("74afd2e9-729a-4175-b4f4-8bced0820b31"), "MALLA"),
             SubFamily.Create(Guid.Parse("89acacbb-bda9-4882-91c6-51619e23691c"), "TINTERO"),
             SubFamily.Create(Guid.Parse("c46c694a-fab4-462b-ae7b-a23f8f53d58a"), "METAL")
-            );
+        );
     }
 
-    private void SeedRegion(ModelBuilder modelBuilder) 
+    private static void SeedRegion(ModelBuilder modelBuilder) 
     {
         modelBuilder.Entity<Region>().HasData(
             Region.Create(Guid.Parse("da663528-86f4-422a-badb-da8ca9b6b720"), "COLOMBIA"),
@@ -130,10 +145,10 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext, IUnitOfWor
             Region.Create(Guid.Parse("7a927084-d92d-4f05-b692-08176b8daf5d"), "GUATAPE"),
             Region.Create(Guid.Parse("2669b589-1183-4d04-9c8b-8c3d9e992b48"), "ARMENIA"),
             Region.Create(Guid.Parse("fa99f2fb-073f-4bf7-834d-ed9b55e8759e"), "GENERAL")
-            );
+        );
     }
 
-    private void SeedSize(ModelBuilder modelBuilder)
+    private static void SeedSize(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Size>().HasData(
             Size.Create(Guid.Parse("a846a3ec-8ad7-473f-9107-81169cedf740"), "GRANDE"),
@@ -149,14 +164,14 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext, IUnitOfWor
             Size.Create(Guid.Parse("05a34005-8a4c-420e-84bf-d04fcb747502"), "X6"),
             Size.Create(Guid.Parse("5ed80180-fa8c-4c74-93bd-edfab30154b2"), "X5"),
             Size.Create(Guid.Parse("a37ea663-7a40-4abb-9bc2-e6e3d4016f66"), "MINI")
-            );
+        );
     }
 
-    private void SeedFamilyType(ModelBuilder modelBuilder)
+    private static void SeedFamilyType(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<FamilyType>().HasData(
             FamilyType.Create(Guid.Parse("070a6b5b-17af-46a7-b02d-48a60a6b93a6"), "COLOR"),
             FamilyType.Create(Guid.Parse("06f06c09-87d9-4395-905c-c3372d8d9968"), "TRADICIONAL")
-            );
+        );
     }
 }

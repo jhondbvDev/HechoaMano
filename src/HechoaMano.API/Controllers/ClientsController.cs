@@ -1,5 +1,4 @@
-﻿using HechoaMano.Application.Clients.Commands;
-using HechoaMano.Application.Clients.Queries.GetClientNames;
+﻿using HechoaMano.Application.Clients.Commands.UploadClients;
 using HechoaMano.Application.Clients.Queries.GetClients;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -10,18 +9,12 @@ namespace HechoaMano.API.Controllers
     [ApiController]
     public class ClientsController(ISender mediator) : ControllerBase
     {
+        private readonly ISender _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+
         [HttpGet]
         public async Task<IActionResult> GetClients() 
         {
-            var result = await mediator.Send(new GetClientsQuery());
-
-            return Ok(result);
-        }
-
-        [HttpGet("names")]
-        public async Task<IActionResult> GetClientNames() 
-        {
-            var result = await mediator.Send(new GetClientNamesQuery());
+            var result = await _mediator.Send(new GetClientsQuery());
 
             return Ok(result);
         }
@@ -30,7 +23,7 @@ namespace HechoaMano.API.Controllers
         public async Task<IActionResult> UploadClients(IFormFile file)
         {
             var command = new UploadClientsCommand(file);
-            await mediator.Send(command);
+            await _mediator.Send(command);
 
             return Created();
         }

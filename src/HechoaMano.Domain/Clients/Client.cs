@@ -1,7 +1,6 @@
 ﻿using HechoaMano.Domain.Clients.ValueObjects;
 using HechoaMano.Domain.Common.Models;
 using HechoaMano.Domain.Common.ValueObjects;
-using HechoaMano.Domain.Employees;
 
 namespace HechoaMano.Domain.Clients;
 
@@ -36,6 +35,6 @@ public sealed class Client : AggregateRoot<UserId>
 
     public static Client Create(string name, string documentId, ContactInformation contactInfo, string shopName, decimal discount)
     {
-        return new(UserId.CreateUnique(), name, documentId, contactInfo, shopName, discount, DateTime.Now, DateTime.Now);
+        return new(UserId.Create(), name, documentId, contactInfo, shopName, discount, DateTime.Now, DateTime.Now);
     }
 }

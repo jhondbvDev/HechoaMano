@@ -1,31 +1,24 @@
 ﻿using HechoaMano.Application.Products.Abstractions;
 using HechoaMano.Domain.Products;
+using HechoaMano.Domain.Products.Entities;
 using HechoaMano.Domain.Products.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
 namespace HechoaMano.Infrastructure.Persistence.Repositories;
 
-public class ProductRepository : IProductRepository
+public class ProductRepository(ApplicationDbContext context) : IProductRepository
 {
-    private readonly ApplicationDbContext _context;
+    private readonly ApplicationDbContext _context = context ?? throw new ArgumentNullException(nameof(context));
 
-    public ProductRepository(ApplicationDbContext context)
-    {
-        _context = context ?? throw new ArgumentNullException(nameof(context));
-    }
+    #region Products
+    public async Task<List<Product>> GetAllProductsAsync() => await _context.Products.ToListAsync();
+    public async Task<Product?> GetProductAsync(ProductId id) => await _context.Products.SingleOrDefaultAsync(x => x.Id == id);
+    public async Task CreateProductsAsync(List<Product> products) => await _context.Products.AddRangeAsync(products);
+    public void UpdateProducts(List<Product> products) => _context.UpdateRange(products);
+    #endregion
 
-    public async Task AddAsync(Product product)=> await  _context.Products.AddAsync(product);
-
-    public Task DeleteAsync(ProductId id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<List<Product>> GetAll() => await _context.Products.ToListAsync();
-
-    public async Task<Product?> GetAsync(ProductId id) => await _context.Products.SingleOrDefaultAsync(x => x.Id == id);
-    public Task UpdateAsync(Product product)
-    {
-        throw new NotImplementedException();
-    }
+    public async Task<List<Family>> GetAllFamiliesAsync() => await _context.Families.ToListAsync();
+    public async Task<List<Region>> GetAllRegionsAsync() => await _context.Regions.ToListAsync();
+    public async Task<List<Size>> GetAllSizesAsync() => await _context.Sizes.ToListAsync();
+    public async Task<List<SubFamily>> GetAllSubFamiliesAsync() => await _context.SubFamilies.ToListAsync();
 }

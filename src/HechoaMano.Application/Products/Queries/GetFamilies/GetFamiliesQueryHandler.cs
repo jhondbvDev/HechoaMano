@@ -5,12 +5,13 @@ using MediatR;
 
 namespace HechoaMano.Application.Products.Queries.GetProducts;
 
-public class GetFamiliesQueryHandler(IProductRepository productRepository) : IRequestHandler<GetFamiliesQuery, List<FamilyResult>>
+public class GetFamiliesQueryHandler(IProductRepository repository) : IRequestHandler<GetFamiliesQuery, List<FamilyResult>>
 {
-    private readonly IProductRepository _productRepository = productRepository;
+    private readonly IProductRepository _repository = repository ?? throw new ArgumentNullException(nameof(repository));
 
     public async Task<List<FamilyResult>> Handle(GetFamiliesQuery request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var families = await _repository.GetAllFamiliesAsync();
+        return families.ConvertAll(f => f.Adapt<FamilyResult>());
     }
 }

@@ -1,5 +1,8 @@
 ﻿using HechoaMano.Application.Authentication.Abstractions;
+using HechoaMano.Application.Clients.Abstractions;
 using HechoaMano.Application.Common.Abstractions;
+using HechoaMano.Application.Employees.Abstractions;
+using HechoaMano.Application.Inventory.Abstractions;
 using HechoaMano.Application.Products.Abstractions;
 using HechoaMano.Infrastructure.Persistence;
 using HechoaMano.Infrastructure.Persistence.Repositories;
@@ -37,6 +40,9 @@ namespace HechoaMano.Infrastructure
             services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
             services.AddScoped<IUnitOfWork>(provider => provider.GetRequiredService<ApplicationDbContext>());
 
+            services.AddScoped<IClientRepository, ClientRepository>();
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<IInventoryRepository, InventoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             return services;
         }

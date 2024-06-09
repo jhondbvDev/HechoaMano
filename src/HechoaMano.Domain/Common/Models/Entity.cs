@@ -6,12 +6,12 @@ public abstract class Entity<TId>(TId id) : IEquatable<Entity<TId>>
 {
     public TId Id { get; protected init; } = id;
 
-    public static bool operator ==(Entity<TId> a, Entity<TId> b)
+    public static bool operator ==(Entity<TId>? a, Entity<TId>? b)
     {
         return Equals(a, b);
     }
 
-    public static bool operator !=(Entity<TId> a, Entity<TId> b)
+    public static bool operator !=(Entity<TId>? a, Entity<TId>? b)
     {
         return !Equals(a, b);
     }

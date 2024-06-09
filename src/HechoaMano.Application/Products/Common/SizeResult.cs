@@ -1,3 +1,3 @@
 ﻿namespace HechoaMano.Application.Products.Common;
 
-public record SizeResult;
+public record SizeResult(Guid Id, string Name);

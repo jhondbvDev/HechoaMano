@@ -1,12 +1,17 @@
-﻿using HechoaMano.Application.Inventory.Common;
+﻿using HechoaMano.Application.Inventory.Abstractions;
+using HechoaMano.Application.Inventory.Common;
+using Mapster;
 using MediatR;
 
 namespace HechoaMano.Application.Inventory.Queries.GetEmployeeOrders;
 
-public class GetEmployeeOrdersQueryHandler : IRequestHandler<GetEmployeeOrdersQuery, List<EmployeeOrderResult>>
+public class GetEmployeeOrdersQueryHandler(IInventoryRepository repository) : IRequestHandler<GetEmployeeOrdersQuery, List<EmployeeOrderResult>>
 {
-    public Task<List<EmployeeOrderResult>> Handle(GetEmployeeOrdersQuery request, CancellationToken cancellationToken)
+    private readonly IInventoryRepository _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+
+    public async Task<List<EmployeeOrderResult>> Handle(GetEmployeeOrdersQuery request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var employeeOrders = await _repository.GetAllEmployeeOrdersAsync();
+        return employeeOrders.ConvertAll(e => e.Adapt<EmployeeOrderResult>());
     }
 }

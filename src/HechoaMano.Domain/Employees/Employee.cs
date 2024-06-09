@@ -20,7 +20,7 @@ namespace HechoaMano.Domain.Employees
 
         public static Employee Create(string name, string documentId) 
         {
-            return new(UserId.CreateUnique(), name, documentId, DateTime.Now, DateTime.Now);
+            return new(UserId.Create(), name, documentId, DateTime.Now, DateTime.Now);
         }
     }
 }

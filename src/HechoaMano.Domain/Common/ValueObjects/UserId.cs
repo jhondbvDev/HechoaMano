@@ -11,7 +11,7 @@ namespace HechoaMano.Domain.Common.ValueObjects
             Value = value;
         }
 
-        public static UserId CreateUnique() 
+        public static UserId Create() 
         {
             return new(Guid.NewGuid());
         }

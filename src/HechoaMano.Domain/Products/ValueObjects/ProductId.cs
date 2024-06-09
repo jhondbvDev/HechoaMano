@@ -11,7 +11,7 @@ public sealed class ProductId : ValueObject
         Value = value;
     }
 
-    public static ProductId CreateUnique()
+    public static ProductId Create()
     {
         return new(Guid.NewGuid());
     }

@@ -1,15 +1,17 @@
 ﻿using HechoaMano.Application.Products.Abstractions;
 using HechoaMano.Application.Products.Common;
+using Mapster;
 using MediatR;
 
 namespace HechoaMano.Application.Products.Queries.GetRegions;
 
-public class GetRegionsQueryHandler(IProductRepository productRepository) : IRequestHandler<GetRegionsQuery, List<RegionResult>>
+public class GetRegionsQueryHandler(IProductRepository repository) : IRequestHandler<GetRegionsQuery, List<RegionResult>>
 {
-    private readonly IProductRepository _productRepository = productRepository;
+    private readonly IProductRepository _repository = repository ?? throw new ArgumentNullException(nameof(repository));
 
     public async Task<List<RegionResult>> Handle(GetRegionsQuery request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var regions = await _repository.GetAllRegionsAsync();
+        return regions.ConvertAll(r => r.Adapt<RegionResult>());
     }
 }

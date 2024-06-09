@@ -1,4 +1,4 @@
-﻿using HechoaMano.Application.Employees.Commands;
+﻿using HechoaMano.Application.Employees.Commands.UploadEmployees;
 using HechoaMano.Application.Employees.Queries.GetEmployees;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -9,10 +9,12 @@ namespace HechoaMano.API.Controllers
     [ApiController]
     public class EmployeesController(ISender mediator) : ControllerBase
     {
+        private readonly ISender _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+
         [HttpGet]
         public async Task<IActionResult> GetEmployees()
         {
-            var result = await mediator.Send(new GetEmployeesQuery());
+            var result = await _mediator.Send(new GetEmployeesQuery());
 
             return Ok(result);
         }
@@ -21,7 +23,7 @@ namespace HechoaMano.API.Controllers
         public async Task<IActionResult> UploadEmployees(IFormFile file)
         {
             var command = new UploadEmployeesCommand(file);
-            await mediator.Send(command);
+            await _mediator.Send(command);
 
             return Created();
         }
