@@ -6,17 +6,17 @@ namespace HechoaMano.Domain.Products;
 
 public sealed class Product : AggregateRoot<ProductId>
 {
-    public string Name { get; }
-    public FamilyType FamilyType { get; }
-    public Family Family { get; }
-    public SubFamily SubFamily { get; }
-    public Size Size { get; }
-    public Region Region { get; }
-    public ProductStock ProductStock { get; }
-    public decimal SellPrice { get; }
-    public decimal BuyPrice { get; }
-    public DateTime CreatedDate { get;}
-    public DateTime UpdatedDate { get; }
+    public string Name { get; private set; }
+    public FamilyType FamilyType { get; private set; }
+    public Family Family { get; private set; }
+    public SubFamily SubFamily { get; private set; }
+    public Size Size { get; private set; }
+    public Region Region { get; private set; }
+    public ProductStock ProductStock { get; private set; }
+    public decimal SellPrice { get; private set; }
+    public decimal BuyPrice { get; private set; }
+    public DateTime CreatedDate { get; private set; }
+    public DateTime UpdatedDate { get; private set; }
 
     private Product(
         ProductId id,
@@ -50,7 +50,6 @@ public sealed class Product : AggregateRoot<ProductId>
         SubFamily subFamily,
         Size size,
         Region region,
-        ProductStock productStock,
         decimal sellPrice,
         decimal buyPrice) 
     {
@@ -61,7 +60,7 @@ public sealed class Product : AggregateRoot<ProductId>
             subFamily,
             size,
             region,
-            productStock,
+            ProductStock.Create(),
             sellPrice,
             buyPrice,
             DateTime.Now,

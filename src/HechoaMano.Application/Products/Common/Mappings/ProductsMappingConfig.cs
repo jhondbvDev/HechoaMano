@@ -15,7 +15,7 @@ public class ProductsMappingConfig : IRegister
             .Map(dest => dest.RegionName, src => src.Region.Name)
             .Map(dest => dest.FamilyTypeName, src => src.FamilyType.Name)
             .Map(dest => dest.SizeName, src => src.Size.Name)
-            .Map(dest => dest.Stock, src => src.ProductStock.Quantity);
+            .Map(dest => dest.Stock, src => src.ProductStock.Value);
 
         config.NewConfig<Family, FamilyResult>();
         config.NewConfig<SubFamily, SubFamilyResult>();

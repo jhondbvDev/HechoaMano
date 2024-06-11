@@ -1,6 +1,4 @@
-﻿#pragma warning disable IDE0150 // Prefer 'null' check over type check
-
-namespace HechoaMano.Domain.Common.Models;
+﻿namespace HechoaMano.Domain.Common.Models;
 
 public abstract class Entity<TId>(TId id) : IEquatable<Entity<TId>>
 {
@@ -45,5 +43,3 @@ public abstract class Entity<TId>(TId id) : IEquatable<Entity<TId>>
         return Equals((object?)other);
     }
 }
-
-#pragma warning restore IDE0150 // Prefer 'null' check over type check

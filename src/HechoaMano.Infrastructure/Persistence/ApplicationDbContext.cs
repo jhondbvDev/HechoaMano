@@ -27,7 +27,6 @@ public class ApplicationDbContext(DbContextOptions options, IPublisher publisher
     public DbSet<InventoryControlDetail> InventoryControlDetails { get; set; }
     public DbSet<Family> Families { get; set; }
     public DbSet<FamilyType> FamilyTypes { get; set; }
-    public DbSet<ProductStock> ProductStocks { get; set; }
     public DbSet<Region> Regions { get; set; }
     public DbSet<Size> Sizes { get; set; }
     public DbSet<SubFamily> SubFamilies { get; set; }

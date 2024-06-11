@@ -5,9 +5,9 @@ namespace HechoaMano.Domain.Inventory.Entities;
 
 public sealed class OrderDetail : Entity<Guid>
 {
-    public ProductId ProductId { get; }
-    public int Quantity { get; }
-    public decimal Price { get; }
+    public ProductId ProductId { get; private set; }
+    public int Quantity { get; private set; }
+    public decimal Price { get; private set; }
 
     private OrderDetail(Guid id, ProductId productId, int quantity, decimal price) : base(id)
     {

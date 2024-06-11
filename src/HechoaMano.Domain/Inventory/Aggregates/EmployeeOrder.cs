@@ -8,10 +8,10 @@ public class EmployeeOrder : AggregateRoot<Guid>
 {
     private readonly List<OrderDetail> _details = [];
 
-    public UserId EmployeeId { get; }
+    public UserId EmployeeId { get; private set; }
     public IReadOnlyList<OrderDetail> Details => _details.AsReadOnly();
-    public decimal TotalPrice { get; }
-    public DateTime CreatedDate { get; }
+    public decimal TotalPrice { get; private set; }
+    public DateTime CreatedDate { get; private set; }
 
     private EmployeeOrder(
         Guid id,

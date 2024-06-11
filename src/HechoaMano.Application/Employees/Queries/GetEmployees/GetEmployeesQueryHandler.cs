@@ -12,7 +12,6 @@ public class GetEmployeesQueryHandler(IEmployeeRepository repository) : IRequest
     public async Task<List<EmployeeResult>> Handle(GetEmployeesQuery request, CancellationToken cancellationToken)
     {
         var employees = await _repository.GetAllAsync();
-
         return employees.ConvertAll(e => e.Adapt<EmployeeResult>());
     }
 }

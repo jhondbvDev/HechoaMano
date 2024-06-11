@@ -8,9 +8,9 @@ public class InventoryControl : AggregateRoot<Guid>
 {
     private readonly List<InventoryControlDetail> _details = [];
 
-    public UserId EmployeeId { get; }
+    public UserId EmployeeId { get; private set; }
     public IReadOnlyList<InventoryControlDetail> Details => _details.AsReadOnly();
-    public DateTime CreatedDate { get; }
+    public DateTime CreatedDate { get; private set; }
 
     private InventoryControl(
         Guid id,

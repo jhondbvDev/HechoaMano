@@ -5,9 +5,9 @@ namespace HechoaMano.Domain.Inventory.Entities;
 
 public sealed class InventoryControlDetail : Entity<Guid>
 {
-    public ProductId ProductId { get; }
-    public int CountedQuantity { get; }
-    public int SystemQuantity { get; }
+    public ProductId ProductId { get; private set; }
+    public int CountedQuantity { get; private set; }
+    public int SystemQuantity { get; private set; }
 
     private InventoryControlDetail(Guid id, ProductId productId, int countedQuantity, int systemQuantity) : base(id)
     {
@@ -26,4 +26,3 @@ public sealed class InventoryControlDetail : Entity<Guid>
         return new(id, productId, countedQuantity, systemQuantity);
     }
 }
-

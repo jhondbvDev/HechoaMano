@@ -21,7 +21,6 @@ public interface IApplicationDbContext
     DbSet<Product> Products { get; set; }
     DbSet<Family> Families { get; set; }
     DbSet<FamilyType> FamilyTypes { get; set; }
-    DbSet<ProductStock> ProductStocks { get; set; }
     DbSet<Region> Regions { get; set; }
     DbSet<Size> Sizes { get; set; }
     DbSet<SubFamily> SubFamilies { get; set; }

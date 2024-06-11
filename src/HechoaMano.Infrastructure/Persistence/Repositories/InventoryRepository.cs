@@ -23,7 +23,7 @@ public class InventoryRepository(ApplicationDbContext context) : IInventoryRepos
     public async Task AddClientOrderAsync(ClientOrder record) => await _context.ClientOrders.AddAsync(record);
     public async Task DeleteClientOrderAsync(Guid orderId)
     {
-        var recordToDelete = await _context.ClientOrders.SingleOrDefaultAsync(c => c.Id == orderId) ?? throw new RecordNotFoundException();
+        var recordToDelete = await _context.ClientOrders.SingleOrDefaultAsync(c => c.Id == orderId) ?? throw new RecordNotFoundException(orderId.ToString());
 
         context.ClientOrders.Remove(recordToDelete);
     }
@@ -36,7 +36,7 @@ public class InventoryRepository(ApplicationDbContext context) : IInventoryRepos
     public async Task AddEmployeeOrderAsync(EmployeeOrder record) => await _context.EmployeeOrders.AddAsync(record);
     public async Task DeleteEmployeeOrderAsync(Guid orderId)
     {
-        var recordToDelete = await _context.EmployeeOrders.SingleOrDefaultAsync(e => e.Id == orderId) ?? throw new RecordNotFoundException();
+        var recordToDelete = await _context.EmployeeOrders.SingleOrDefaultAsync(e => e.Id == orderId) ?? throw new RecordNotFoundException(orderId.ToString());
 
         context.EmployeeOrders.Remove(recordToDelete);
     }

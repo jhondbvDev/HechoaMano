@@ -6,13 +6,13 @@ namespace HechoaMano.Domain.Clients;
 
 public sealed class Client : AggregateRoot<UserId>
 {
-    public string Name { get; }
-    public string DocumentId { get; }
-    public ContactInformation ContactInfo { get; }
-    public string ShopName { get; }
-    public decimal Discount { get; }
-    public DateTime CreatedDate { get; }
-    public DateTime UpdatedDate { get; }
+    public string Name { get; private set; }
+    public string DocumentId { get; private set; }
+    public ContactInformation ContactInfo { get; private set; }
+    public string ShopName { get; private set; }
+    public decimal Discount { get; private set; }
+    public DateTime CreatedDate { get; private set; }
+    public DateTime UpdatedDate { get; private set; }
 
     private Client(
         UserId id,

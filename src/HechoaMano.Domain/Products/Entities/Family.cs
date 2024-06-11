@@ -4,7 +4,7 @@ namespace HechoaMano.Domain.Products.Entities;
 
 public sealed class Family : Entity<Guid>
 {
-    public string Name { get; }
+    public string Name { get; private set; }
 
     private Family(Guid id, string name) : base(id) => Name = name;
 
