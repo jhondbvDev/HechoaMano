@@ -2,19 +2,52 @@
 
 namespace HechoaMano.Domain.Products.Entities;
 
-public sealed class Size : Entity<Guid>
+public class Size : Entity<Guid>
 {
     public string Name { get; private set; }
+    private readonly List<Product> _products = [];
+    public virtual IReadOnlyList<Product> Products => _products.AsReadOnly();
 
-    private Size(Guid id, string name) : base(id) => Name = name;
-
-    public static Size Create(Guid id, string value)
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    public Size()
     {
-        if (string.IsNullOrWhiteSpace(value))
+        
+    }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+
+    private Size(Guid id, string name, List<Product> products) : base(id)
+    {
+        Name = name;
+        _products = products;
+    }
+
+    public static Size Create(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
         {
-            throw new ArgumentNullException(nameof(value));
+            throw new ArgumentNullException(nameof(name));
         }
 
-        return new Size(id, value);
+        return new Size(Guid.NewGuid(), name, []);
+    }
+
+    public static Size Create(Guid id, string name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            throw new ArgumentNullException(nameof(name));
+        }
+
+        return new Size(id, name, []);
+    }
+
+    public static Size Create(Guid id, string name, List<Product> products)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            throw new ArgumentNullException(nameof(name));
+        }
+
+        return new Size(id, name, products);
     }
 }

@@ -9,12 +9,14 @@ using HechoaMano.Domain.Clients;
 using HechoaMano.Domain.Employees;
 using HechoaMano.Domain.Inventory.Aggregates;
 using HechoaMano.Domain.Inventory.Entities;
+using System.Reflection;
+using Microsoft.Extensions.Configuration;
 
 namespace HechoaMano.Infrastructure.Persistence;
 
-public class ApplicationDbContext(DbContextOptions options, IPublisher publisher) : DbContext(options), IApplicationDbContext, IUnitOfWork
+public class ApplicationDbContext : DbContext, IApplicationDbContext, IUnitOfWork
 {
-    private readonly IPublisher _publisher = publisher ?? throw new ArgumentException(nameof(publisher));
+    private readonly IPublisher _publisher;
 
     public DbSet<Product> Products { get; set; }
     public DbSet<Client> Clients { get; set; }
@@ -30,6 +32,36 @@ public class ApplicationDbContext(DbContextOptions options, IPublisher publisher
     public DbSet<Region> Regions { get; set; }
     public DbSet<Size> Sizes { get; set; }
     public DbSet<SubFamily> SubFamilies { get; set; }
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    public ApplicationDbContext() : base()
+    {
+        
+    }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IPublisher publisher)
+        : base(options)
+    {
+        _publisher = publisher ?? throw new ArgumentNullException(nameof(publisher));
+    }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        //Used to generate migrations during development
+        if (!optionsBuilder.IsConfigured)
+        {
+            var assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
+
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                .SetBasePath($"{Directory.GetCurrentDirectory()}/Persistence")
+                .AddJsonFile($"appsettings.json")
+                .Build();
+
+            var connectionString = configuration.GetConnectionString("DefaultConnectionString");
+            optionsBuilder.UseSqlServer(connectionString);
+        }
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

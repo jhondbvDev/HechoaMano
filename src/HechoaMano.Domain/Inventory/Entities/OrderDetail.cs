@@ -9,6 +9,13 @@ public sealed class OrderDetail : Entity<Guid>
     public int Quantity { get; private set; }
     public decimal Price { get; private set; }
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    public OrderDetail()
+    {
+        
+    }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+
     private OrderDetail(Guid id, ProductId productId, int quantity, decimal price) : base(id)
     {
         ProductId = productId;

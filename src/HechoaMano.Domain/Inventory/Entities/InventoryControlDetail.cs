@@ -9,6 +9,13 @@ public sealed class InventoryControlDetail : Entity<Guid>
     public int CountedQuantity { get; private set; }
     public int SystemQuantity { get; private set; }
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    public InventoryControlDetail()
+    {
+        
+    }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+
     private InventoryControlDetail(Guid id, ProductId productId, int countedQuantity, int systemQuantity) : base(id)
     {
         ProductId = productId;

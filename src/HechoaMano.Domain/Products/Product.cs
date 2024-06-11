@@ -4,19 +4,31 @@ using HechoaMano.Domain.Products.ValueObjects;
 
 namespace HechoaMano.Domain.Products;
 
-public sealed class Product : AggregateRoot<ProductId>
+public class Product : AggregateRoot<ProductId>
 {
     public string Name { get; private set; }
-    public FamilyType FamilyType { get; private set; }
-    public Family Family { get; private set; }
-    public SubFamily SubFamily { get; private set; }
-    public Size Size { get; private set; }
-    public Region Region { get; private set; }
+    public Guid FamilyTypeId { get; private set; }
+    public virtual FamilyType FamilyType { get; private set; }
+    public Guid FamilyId { get; private set; }
+    public virtual Family Family { get; private set; }
+    public Guid SubFamilyId { get; private set; }
+    public virtual SubFamily SubFamily { get; private set; }
+    public Guid SizeId { get; private set; }
+    public virtual Size Size { get; private set; }
+    public Guid RegionId { get; private set; }
+    public virtual Region Region { get; private set; }
     public ProductStock ProductStock { get; private set; }
     public decimal SellPrice { get; private set; }
     public decimal BuyPrice { get; private set; }
     public DateTime CreatedDate { get; private set; }
     public DateTime UpdatedDate { get; private set; }
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    public Product()
+    {
+        
+    }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
     private Product(
         ProductId id,

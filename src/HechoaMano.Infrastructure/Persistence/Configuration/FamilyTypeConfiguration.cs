@@ -4,19 +4,19 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace HechoaMano.Infrastructure.Persistence.Configuration;
 
-public class FamilyConfiguration : IEntityTypeConfiguration<Family>
+public class FamilyTypeConfiguration : IEntityTypeConfiguration<FamilyType>
 {
-    public void Configure(EntityTypeBuilder<Family> builder)
+    public void Configure(EntityTypeBuilder<FamilyType> builder)
     {
-        builder.ToTable("Families");
+        builder.ToTable("FamilyTypes");
         builder.HasKey(x => x.Id);
 
         builder.HasMany(f => f.Products)
-            .WithOne(p => p.Family)
-            .HasForeignKey(p => p.FamilyId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .WithOne(p => p.FamilyType)
+            .HasForeignKey(p => p.FamilyTypeId)
+            .OnDelete(DeleteBehavior.Restrict); ;
 
-        builder.Metadata.FindNavigation(nameof(Family.Products))!
+        builder.Metadata.FindNavigation(nameof(FamilyType.Products))!
             .SetPropertyAccessMode(PropertyAccessMode.Field);
 
         builder.Property(x => x.Id);

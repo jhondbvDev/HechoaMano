@@ -2,19 +2,52 @@
 
 namespace HechoaMano.Domain.Products.Entities;
 
-public sealed class Region : Entity<Guid>
+public class Region : Entity<Guid>
 {
     public string Name { get; private set; }
+    private readonly List<Product> _products = [];
+    public virtual IReadOnlyList<Product> Products => _products.AsReadOnly();
 
-    private Region(Guid id, string name) : base(id) => Name = name;
-
-    public static Region Create(Guid id, string value)
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    public Region()
     {
-        if (string.IsNullOrWhiteSpace(value))
+        
+    }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+
+    private Region(Guid id, string name, List<Product> products) : base(id)
+    {
+        Name = name;
+        _products = products;
+    }
+
+    public static Region Create(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
         {
-            throw new ArgumentNullException(nameof(value));
+            throw new ArgumentNullException(nameof(name));
         }
 
-        return new Region(id, value);
+        return new Region(Guid.NewGuid(), name, []);
+    }
+
+    public static Region Create(Guid id, string name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            throw new ArgumentNullException(nameof(name));
+        }
+
+        return new Region(id, name, []);
+    }
+
+    public static Region Create(Guid id, string name, List<Product> products)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            throw new ArgumentNullException(nameof(name));
+        }
+
+        return new Region(id, name, products);
     }
 }

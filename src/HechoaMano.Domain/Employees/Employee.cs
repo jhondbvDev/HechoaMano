@@ -10,6 +10,13 @@ public sealed class Employee : AggregateRoot<UserId>
     public DateTime CreatedDate { get; private set; }
     public DateTime UpdatedDate { get; private set; }
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    public Employee()
+    {
+        
+    }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+
     private Employee(UserId id, string name, string documentId, DateTime createdDate, DateTime updatedDate) : base(id)
     {
         Name = name;
