@@ -11,7 +11,14 @@ public class ProductRepository(ApplicationDbContext context) : IProductRepositor
     private readonly ApplicationDbContext _context = context ?? throw new ArgumentNullException(nameof(context));
 
     #region Products
-    public async Task<List<Product>> GetAllProductsAsync() => await _context.Products.ToListAsync();
+    public async Task<List<Product>> GetAllProductsAsync() => 
+        await _context.Products
+            .Include(p => p.FamilyType)
+            .Include(p => p.Family)
+            .Include(p => p.SubFamily)
+            .Include(p => p.Size)
+            .Include(p => p.Region)
+            .ToListAsync();
     public async Task<Product?> GetProductAsync(ProductId id) => await _context.Products.SingleOrDefaultAsync(x => x.Id == id);
     public async Task CreateProductsAsync(List<Product> products) => await _context.Products.AddRangeAsync(products);
     public void UpdateProducts(List<Product> products) => _context.UpdateRange(products);

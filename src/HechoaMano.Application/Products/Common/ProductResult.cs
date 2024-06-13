@@ -3,11 +3,11 @@
 public record ProductResult(
     Guid Id,
     string Name,
-    string FamilyName,
-    string SubFamilyName,
-    string RegionName,
-    string FamilyTypeName,
-    string SizeName,
+    string Family,
+    string? SubFamily,
+    string Region,
+    string? FamilyType,
+    string? Size,
     int Stock,
     decimal SellPrice,
     decimal BuyPrice);

@@ -7,14 +7,14 @@ namespace HechoaMano.Domain.Products;
 public class Product : AggregateRoot<ProductId>
 {
     public string Name { get; private set; }
-    public Guid FamilyTypeId { get; private set; }
-    public virtual FamilyType FamilyType { get; private set; }
+    public Guid? FamilyTypeId { get; private set; }
+    public virtual FamilyType? FamilyType { get; private set; }
     public Guid FamilyId { get; private set; }
     public virtual Family Family { get; private set; }
-    public Guid SubFamilyId { get; private set; }
-    public virtual SubFamily SubFamily { get; private set; }
-    public Guid SizeId { get; private set; }
-    public virtual Size Size { get; private set; }
+    public Guid? SubFamilyId { get; private set; }
+    public virtual SubFamily? SubFamily { get; private set; }
+    public Guid? SizeId { get; private set; }
+    public virtual Size? Size { get; private set; }
     public Guid RegionId { get; private set; }
     public virtual Region Region { get; private set; }
     public ProductStock ProductStock { get; private set; }
@@ -32,10 +32,16 @@ public class Product : AggregateRoot<ProductId>
 
     private Product(
         ProductId id,
-        FamilyType familyType,
+        string name,
+        Guid? familyTypeId,
+        FamilyType? familyType,
+        Guid familyId,
         Family family,
-        SubFamily subFamily,
-        Size size,
+        Guid? subFamilyId,
+        SubFamily? subFamily,
+        Guid? sizeId,
+        Size? size,
+        Guid regionId,
         Region region,
         ProductStock productStock,
         decimal sellPrice,
@@ -43,11 +49,16 @@ public class Product : AggregateRoot<ProductId>
         DateTime createdDate,
         DateTime updatedDate) : base(id)
     {
-        Name = $"{family.Name} {subFamily.Name} {familyType.Name} {size.Name} {region.Name}";
+        Name = name;
+        FamilyTypeId = familyTypeId;
         FamilyType = familyType;
+        FamilyId = familyId;
         Family = family;
+        SubFamilyId = subFamilyId;
         SubFamily = subFamily;
+        SizeId = sizeId;
         Size = size;
+        RegionId = regionId;
         Region = region;
         SellPrice = sellPrice;
         BuyPrice = buyPrice;
@@ -57,6 +68,7 @@ public class Product : AggregateRoot<ProductId>
     }
 
     public static Product Create(
+        string name,
         FamilyType familyType,
         Family family,
         SubFamily subFamily,
@@ -67,11 +79,47 @@ public class Product : AggregateRoot<ProductId>
     {
         return new(
             ProductId.Create(),
+            name,
+            familyType.Id,
             familyType,
+            family.Id,
             family,
+            subFamily.Id,
             subFamily,
+            size.Id,
             size,
+            region.Id,
             region,
+            ProductStock.Create(),
+            sellPrice,
+            buyPrice,
+            DateTime.Now,
+            DateTime.Now);
+    }
+
+    public static Product Create(
+        string name,
+        Guid? familyTypeId,
+        Guid familyId,
+        Guid? subFamilyId,
+        Guid? sizeId,
+        Guid regionId,
+        decimal sellPrice,
+        decimal buyPrice)
+    {
+        return new(
+            ProductId.Create(),
+            name,
+            familyTypeId,
+            null!,
+            familyId,
+            null!,
+            subFamilyId,
+            null!,
+            sizeId,
+            null!,
+            regionId,
+            null!,
             ProductStock.Create(),
             sellPrice,
             buyPrice,

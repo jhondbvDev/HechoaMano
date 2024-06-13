@@ -8,6 +8,7 @@ using HechoaMano.Infrastructure.Persistence;
 using HechoaMano.Infrastructure.Persistence.Repositories;
 using HechoaMano.Infrastructure.Services.Authentication;
 using HechoaMano.Infrastructure.Services.Authentication.Common;
+using HechoaMano.Infrastructure.Services.Common;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -24,7 +25,8 @@ namespace HechoaMano.Infrastructure
         {
             services
                 .AddPersistence(configuration)
-                .AddAuth(configuration);
+                .AddAuth(configuration)
+                .AddServices();
 
             return services;
         }
@@ -44,6 +46,7 @@ namespace HechoaMano.Infrastructure
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<IInventoryRepository, InventoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
+
             return services;
         }
 
@@ -66,6 +69,13 @@ namespace HechoaMano.Infrastructure
                     ValidAudience = jwtSettings.Audience,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret!))
                 });
+
+            return services;
+        }
+
+        private static IServiceCollection AddServices(this IServiceCollection services)
+        {
+            services.AddScoped<IFileDataExtractionService, FileDataExtractionService>();
 
             return services;
         }

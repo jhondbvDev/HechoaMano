@@ -318,7 +318,7 @@ namespace HechoaMano.Infrastructure.Persistence.Migrations
                         new
                         {
                             Id = new Guid("4fba73e9-c904-4cbf-86eb-625fc3e86225"),
-                            Name = "SANTA MARTA "
+                            Name = "SANTA MARTA"
                         },
                         new
                         {
@@ -660,7 +660,7 @@ namespace HechoaMano.Infrastructure.Persistence.Migrations
                     b.Property<Guid>("FamilyId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("FamilyTypeId")
+                    b.Property<Guid?>("FamilyTypeId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
@@ -673,10 +673,10 @@ namespace HechoaMano.Infrastructure.Persistence.Migrations
                     b.Property<decimal>("SellPrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<Guid>("SizeId")
+                    b.Property<Guid?>("SizeId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("SubFamilyId")
+                    b.Property<Guid?>("SubFamilyId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedDate")
@@ -838,8 +838,7 @@ namespace HechoaMano.Infrastructure.Persistence.Migrations
                     b.HasOne("HechoaMano.Domain.Products.Entities.FamilyType", "FamilyType")
                         .WithMany("Products")
                         .HasForeignKey("FamilyTypeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HechoaMano.Domain.Products.Entities.Region", "Region")
                         .WithMany("Products")
@@ -850,14 +849,12 @@ namespace HechoaMano.Infrastructure.Persistence.Migrations
                     b.HasOne("HechoaMano.Domain.Products.Entities.Size", "Size")
                         .WithMany("Products")
                         .HasForeignKey("SizeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HechoaMano.Domain.Products.Entities.SubFamily", "SubFamily")
                         .WithMany("Products")
                         .HasForeignKey("SubFamilyId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.OwnsOne("HechoaMano.Domain.Products.ValueObjects.ProductStock", "ProductStock", b1 =>
                         {

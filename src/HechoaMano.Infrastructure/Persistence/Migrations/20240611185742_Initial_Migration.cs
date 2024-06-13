@@ -303,7 +303,7 @@ namespace HechoaMano.Infrastructure.Persistence.Migrations
                 values: new object[,]
                 {
                     { new Guid("2669b589-1183-4d04-9c8b-8c3d9e992b48"), "ARMENIA" },
-                    { new Guid("4fba73e9-c904-4cbf-86eb-625fc3e86225"), "SANTA MARTA " },
+                    { new Guid("4fba73e9-c904-4cbf-86eb-625fc3e86225"), "SANTA MARTA" },
                     { new Guid("6b1c12fb-75a0-4740-aba1-2242eff9f1f1"), "CALI" },
                     { new Guid("7a927084-d92d-4f05-b692-08176b8daf5d"), "GUATAPE" },
                     { new Guid("9de4f31d-53b3-406f-8551-469708b0f614"), "SAN ANDRES" },

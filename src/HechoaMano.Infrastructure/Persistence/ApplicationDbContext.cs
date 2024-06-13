@@ -172,7 +172,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext, IUnitOfWor
             Region.Create(Guid.Parse("ef5cabc2-f7a5-4967-ac14-99e6c008307b"), "BARRANQUILLA"),
             Region.Create(Guid.Parse("c77c3a42-5228-4660-869c-551c5ea74ddd"), "CARTAGENA"),
             Region.Create(Guid.Parse("9de4f31d-53b3-406f-8551-469708b0f614"), "SAN ANDRES"),
-            Region.Create(Guid.Parse("4fba73e9-c904-4cbf-86eb-625fc3e86225"), "SANTA MARTA "),
+            Region.Create(Guid.Parse("4fba73e9-c904-4cbf-86eb-625fc3e86225"), "SANTA MARTA"),
             Region.Create(Guid.Parse("7a927084-d92d-4f05-b692-08176b8daf5d"), "GUATAPE"),
             Region.Create(Guid.Parse("2669b589-1183-4d04-9c8b-8c3d9e992b48"), "ARMENIA"),
             Region.Create(Guid.Parse("fa99f2fb-073f-4bf7-834d-ed9b55e8759e"), "GENERAL")

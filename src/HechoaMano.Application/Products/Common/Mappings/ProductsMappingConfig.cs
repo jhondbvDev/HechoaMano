@@ -4,17 +4,19 @@ using Mapster;
 
 namespace HechoaMano.Application.Products.Common.Mappings;
 
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+
 public class ProductsMappingConfig : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {
         config.NewConfig<Product, ProductResult>()
             .Map(dest => dest.Id, src => src.Id.Value)
-            .Map(dest => dest.FamilyName, src => src.Family.Name)
-            .Map(dest => dest.SubFamilyName, src => src.SubFamily.Name)
-            .Map(dest => dest.RegionName, src => src.Region.Name)
-            .Map(dest => dest.FamilyTypeName, src => src.FamilyType.Name)
-            .Map(dest => dest.SizeName, src => src.Size.Name)
+            .Map(dest => dest.Family, src => src.Family.Name)
+            .Map(dest => dest.SubFamily, src => src.SubFamily.Name)
+            .Map(dest => dest.Region, src => src.Region.Name)
+            .Map(dest => dest.FamilyType, src => src.FamilyType.Name)
+            .Map(dest => dest.Size, src => src.Size.Name)
             .Map(dest => dest.Stock, src => src.ProductStock.Value);
 
         config.NewConfig<Family, FamilyResult>();
@@ -23,3 +25,5 @@ public class ProductsMappingConfig : IRegister
         config.NewConfig<Region, RegionResult>();
     }
 }
+
+#pragma warning restore CS8602 // Dereference of a possibly null reference.

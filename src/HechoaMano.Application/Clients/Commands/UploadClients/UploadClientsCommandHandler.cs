@@ -1,24 +1,33 @@
 ﻿using HechoaMano.Application.Clients.Abstractions;
+using HechoaMano.Application.Common.Abstractions;
+using HechoaMano.Application.Common.Errors;
 using HechoaMano.Domain.Clients;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 
 namespace HechoaMano.Application.Clients.Commands.UploadClients;
 
-public class UploadClientsCommandHandler(IClientRepository repository) : IRequestHandler<UploadClientsCommand>
+public class UploadClientsCommandHandler(
+    IClientRepository repository, 
+    IFileDataExtractionService fileDataExtractionService,
+    IUnitOfWork unitOfWork) : IRequestHandler<UploadClientsCommand>
 {
     private readonly IClientRepository _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+    private readonly IFileDataExtractionService _fileDataExtractionService = fileDataExtractionService ?? throw new ArgumentNullException(nameof(fileDataExtractionService));
+    private readonly IUnitOfWork _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
 
     public async Task Handle(UploadClientsCommand request, CancellationToken cancellationToken)
     {
-        var clients = ExtractClientsFromFile(request.File);
+        if (!_fileDataExtractionService.ExtractClientsFromFile(request.File, out List<Client> clients))
+        {
+            throw new FileValidationException();
+        }
+
+        if (clients.Count == 0)
+        {
+            throw new FileWithNoRecordsException();
+        }
 
         await _repository.CreateRangeAsync(clients);
-    }
-
-    //TODO: Implement extraction from Excel file into client list
-    private static List<Client> ExtractClientsFromFile(IFormFile _) 
-    {
-        return Enumerable.Empty<Client>().ToList();
+        await _unitOfWork.SaveChangeAsync(cancellationToken);
     }
 }
