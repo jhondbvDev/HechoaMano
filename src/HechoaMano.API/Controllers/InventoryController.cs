@@ -17,7 +17,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HechoaMano.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     [Authorize]
     public class InventoryController(ISender mediator) : ControllerBase

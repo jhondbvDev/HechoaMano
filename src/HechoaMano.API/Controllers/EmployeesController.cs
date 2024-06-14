@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HechoaMano.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class EmployeesController(ISender mediator) : ControllerBase
     {
