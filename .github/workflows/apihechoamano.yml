@@ -6,6 +6,11 @@ name: .NET
 on:
   push:
     branches: [ "master" ]
+
+env:
+  APPLICATION_PATH : './src/HechoaMano.API'
+  AZURE_WEBAPP_NAME : 'Hecho a mano'
+  AZURE_WEBAPP_PATH : './publish'
  
 
 jobs:
@@ -21,15 +26,22 @@ jobs:
         dotnet-version: 8.0.302
     - name: Restore dependencies
       run: dotnet restore
-      working-directory: ./src/HechoaMano.API
+      working-directory: ${{env.APPLICATION_PATH}}
     - name: Build
       run: dotnet build --configuration Release --no-restore
-      working-directory: ./src/HechoaMano.API
+      working-directory: ${{env.APPLICATION_PATH}}
     - name: Test
       run: dotnet test --no-build --verbosity normal
-      working-directory: ./src/HechoaMano.API
+      working-directory: ${{env.APPLICATION_PATH}}
     - name: Publish
-      run: dotnet publish --configuration Release --no-build
-      working-directory: ./src/HechoaMano.API
+      run: dotnet publish --configuration Release --no-build --output '${{env.AZURE_WEBAPP_PATH}}'
+      working-directory: ${{env.APPLICATION_PATH}}
+    - name: Deployment
+      uses: azure/webapps deploy@v2
+      with:
+        app-name: ${{env.AZURE_WEBAPP_NAME}}
+        publish-profile : ${{secrets.AZURE_PUBLISH_PROFILE}}
+        package : "${{env.AZURE_WEBAPP_PATH}}"
+    
     
       
