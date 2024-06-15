@@ -10,7 +10,7 @@ on:
 env:
   APPLICATION_PATH : './src/HechoaMano.API'
   AZURE_WEBAPP_NAME : 'hechoamanoapi'
-  AZURE_WEBAPP_PATH : './publish'
+  AZURE_WEBAPP_PATH : './src/HechoaMano.API/publish'
  
 
 jobs:
@@ -34,7 +34,8 @@ jobs:
       run: dotnet test --no-build --verbosity normal
       working-directory: ${{env.APPLICATION_PATH}}
     - name: Publish
-      run: dotnet publish --configuration Release --no-build --output '${{env.AZURE_WEBAPP_PATH}}'
+      run: dotnet publish --configuration Release --no-build --output '/publish'
+      working-directory: ${{env.APPLICATION_PATH}}
     - name: Deployment
       uses: azure/webapps-deploy@v2
       with:
