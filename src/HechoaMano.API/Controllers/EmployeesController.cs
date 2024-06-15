@@ -1,12 +1,14 @@
 ﻿using HechoaMano.Application.Employees.Commands.UploadEmployees;
 using HechoaMano.Application.Employees.Queries.GetEmployees;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HechoaMano.API.Controllers
 {
     [Route("[controller]")]
     [ApiController]
+    [Authorize]
     public class EmployeesController(ISender mediator) : ControllerBase
     {
         private readonly ISender _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));

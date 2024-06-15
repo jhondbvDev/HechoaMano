@@ -24,8 +24,14 @@ public class GetEmployeeOrderQueryHandler(
         var employeeOrder = await _repository.GetEmployeeOrderAsync(request.OrderId) ?? throw new RecordNotFoundException(request.OrderId.ToString());
         var employeeData = await _employeeRepository.GetAsync(employeeOrder.EmployeeId) ?? throw new RecordNotFoundException(request.OrderId.ToString());
 
-        //TODO: GetProduct Name per detail
+        List<OrderDetailResult> details = [];
 
-        return employeeOrder.Adapt<DetailedEmployeeOrderResult>();
+        foreach (var item in employeeOrder.Details)
+        {
+            var product = await _productRepository.GetProductAsync(item.ProductId);
+            details.Add((item, product).Adapt<OrderDetailResult>());
+        }
+
+        return (employeeOrder, employeeData, details).Adapt<DetailedEmployeeOrderResult>();
     }
 }

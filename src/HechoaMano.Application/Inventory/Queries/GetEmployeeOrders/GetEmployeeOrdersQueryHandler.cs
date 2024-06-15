@@ -1,6 +1,8 @@
-﻿using HechoaMano.Application.Employees.Abstractions;
+﻿using HechoaMano.Application.Clients.Abstractions;
+using HechoaMano.Application.Employees.Abstractions;
 using HechoaMano.Application.Inventory.Abstractions;
 using HechoaMano.Application.Inventory.Common;
+using HechoaMano.Domain.Inventory.Aggregates;
 using Mapster;
 using MediatR;
 
@@ -17,8 +19,14 @@ public class GetEmployeeOrdersQueryHandler(
     {
         var employeeOrders = await _inventoryRepository.GetAllEmployeeOrdersAsync();
 
-        //TODO: Get employee name per record
-        
-        return employeeOrders.ConvertAll(e => e.Adapt<EmployeeOrderResult>());
+        List<EmployeeOrderResult> results = [];
+
+        foreach (var employeeOrder in employeeOrders)
+        {
+            var client = await _employeeRepository.GetAsync(employeeOrder.EmployeeId);
+            results.Add((employeeOrder, client).Adapt<EmployeeOrderResult>());
+        }
+
+        return results;
     }
 }

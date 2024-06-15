@@ -1,3 +1,3 @@
 ﻿namespace HechoaMano.Application.Inventory.Common;
 
-public record InventoryResult(Guid ControlId, string EmployeeName, DateTime CreatedDate);
+public record InventoryResult(Guid Id, string EmployeeName, DateTime CreatedDate);

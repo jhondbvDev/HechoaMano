@@ -1,3 +1,3 @@
 ﻿namespace HechoaMano.Application.Inventory.Common;
 
-public record DetailedEmployeeOrderResult(Guid OrderId, string EmployeeName, List<OrderDetailResult> Details, decimal TotalPrice);
+public record DetailedEmployeeOrderResult(Guid Id, string EmployeeName, List<OrderDetailResult> Details, decimal TotalPrice);

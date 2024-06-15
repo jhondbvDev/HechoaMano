@@ -17,8 +17,14 @@ public class GetInventoryControlsQueryHandler(
     {
         var inventoryControls = await _inventoryRepository.GetAllInventoryControlsAsync();
 
-        //TODO: Get employee name per control
+        List<InventoryResult> results = [];
 
-        return inventoryControls.ConvertAll(i => i.Adapt<InventoryResult>());
+        foreach (var inventoryControl in inventoryControls)
+        {
+            var employee = await _employeeRepository.GetAsync(inventoryControl.EmployeeId);
+            results.Add((inventoryControl, employee).Adapt<InventoryResult>());
+        }
+
+        return results;
     }
 }

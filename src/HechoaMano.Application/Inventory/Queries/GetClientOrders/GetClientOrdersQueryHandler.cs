@@ -11,13 +11,20 @@ public class GetClientOrdersQueryHandler(
     IClientRepository clientRepository) : IRequestHandler<GetClientOrdersQuery, List<ClientOrderResult>>
 {
     private readonly IInventoryRepository _inventoryRepository = inventoryRepository ?? throw new ArgumentNullException(nameof(inventoryRepository));
+    private readonly IClientRepository _clientRepository = clientRepository ?? throw new ArgumentNullException(nameof(clientRepository));
 
     public async Task<List<ClientOrderResult>> Handle(GetClientOrdersQuery request, CancellationToken cancellationToken)
     {
         var clientOrders = await _inventoryRepository.GetAllClientOrdersAsync();
 
-        //TODO: Get client name per record
+        List<ClientOrderResult> results = [];
 
-        return clientOrders.ConvertAll(c => c.Adapt<ClientOrderResult>());
+        foreach (var clientOrder in clientOrders)
+        {
+            var client = await _clientRepository.GetAsync(clientOrder.ClientId);
+            results.Add((clientOrder, client).Adapt<ClientOrderResult>());
+        }
+
+        return results;
     }
 }

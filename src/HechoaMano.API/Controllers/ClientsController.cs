@@ -1,12 +1,14 @@
 ﻿using HechoaMano.Application.Clients.Commands.UploadClients;
 using HechoaMano.Application.Clients.Queries.GetClients;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HechoaMano.API.Controllers
 {
     [Route("[controller]")]
     [ApiController]
+    [Authorize]
     public class ClientsController(ISender mediator) : ControllerBase
     {
         private readonly ISender _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));

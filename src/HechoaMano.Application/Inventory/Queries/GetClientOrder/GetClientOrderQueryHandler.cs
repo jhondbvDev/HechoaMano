@@ -3,6 +3,7 @@ using HechoaMano.Application.Common.Errors;
 using HechoaMano.Application.Inventory.Abstractions;
 using HechoaMano.Application.Inventory.Common;
 using HechoaMano.Application.Products.Abstractions;
+using HechoaMano.Domain.Inventory.Aggregates;
 using Mapster;
 using MediatR;
 
@@ -20,12 +21,17 @@ namespace HechoaMano.Application.Inventory.Queries.GetClientOrder
         public async Task<DetailedClientOrderResult> Handle(GetClientOrderQuery request, CancellationToken cancellationToken)
         {
             var clientOrder = await _inventoryRepository.GetClientOrderAsync(request.OrderId) ?? throw new RecordNotFoundException(request.OrderId.ToString());
-            
             var clientData = await _clientRepository.GetAsync(clientOrder.ClientId) ?? throw new RecordNotFoundException(clientOrder.ClientId.Value.ToString());
 
-            //TODO: GetProduct Name per detail
+            List<OrderDetailResult> details = [];
 
-            return clientOrder.Adapt<DetailedClientOrderResult>();
+            foreach (var item in clientOrder.Details)
+            {
+                var product = await _productRepository.GetProductAsync(item.ProductId);
+                details.Add((item, product).Adapt<OrderDetailResult>());
+            }
+
+            return (clientOrder, clientData, details).Adapt<DetailedClientOrderResult>();
         }
     }
 }
