@@ -9,7 +9,7 @@ on:
 
 env:
   APPLICATION_PATH : './src/HechoaMano.API'
-  AZURE_WEBAPP_NAME : 'Hecho a mano'
+  AZURE_WEBAPP_NAME : 'hechoamanoapi'
   AZURE_WEBAPP_PATH : './publish'
  
 
