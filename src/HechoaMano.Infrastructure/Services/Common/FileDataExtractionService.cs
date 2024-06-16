@@ -31,7 +31,7 @@ namespace HechoaMano.Infrastructure.Services.Common
                     return false;
                 }
 
-                for (int i = worksheet.Dimension.Start.Row + 1; i < worksheet.Dimension.End.Row; i++)
+                for (int i = worksheet.Dimension.Start.Row + 1; i <= worksheet.Dimension.End.Row; i++)
                 {
                     var name = worksheet.Cells[i, 2].Value.ToString()!;
                     var documentId = worksheet.Cells[i, 1].Value.ToString()!;
@@ -69,7 +69,7 @@ namespace HechoaMano.Infrastructure.Services.Common
                     return false;
                 }
 
-                for (int i = worksheet.Dimension.Start.Row + 1; i < worksheet.Dimension.End.Row; i++)
+                for (int i = worksheet.Dimension.Start.Row + 1; i <= worksheet.Dimension.End.Row; i++)
                 {
                     var name = worksheet.Cells[i, 2].Value.ToString()!;
                     var documentId = worksheet.Cells[i, 1].Value.ToString()!;
@@ -99,7 +99,7 @@ namespace HechoaMano.Infrastructure.Services.Common
                     return false;
                 }
 
-                for (int i = worksheet.Dimension.Start.Row + 1; i < worksheet.Dimension.End.Row; i++)
+                for (int i = worksheet.Dimension.Start.Row + 1; i <= worksheet.Dimension.End.Row; i++)
                 {
                     var id = Guid.Parse(worksheet.Cells[i, 1].Value.ToString()!);
                     var name = worksheet.Cells[i, 2].Value.ToString()!;

@@ -7,6 +7,7 @@ public interface IClientRepository
 {
     Task<List<Client>> GetAllAsync();
     Task<Client?> GetAsync(UserId id);
+    Task<Client?> GetByDocumentId(string documentId);
     Task CreateRangeAsync(List<Client> clients);
     void UpdateRange(List<Client> clients);
 }

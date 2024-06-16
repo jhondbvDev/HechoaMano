@@ -11,6 +11,7 @@ public class ClientRepository(ApplicationDbContext context) : IClientRepository
 
     public async Task<List<Client>> GetAllAsync() => await _context.Clients.AsNoTracking().ToListAsync();
     public async Task<Client?> GetAsync(UserId id) => await _context.Clients.AsNoTracking().SingleOrDefaultAsync(c => c.Id == id);
+    public async Task<Client?> GetByDocumentId(string documentId) => await _context.Clients.AsNoTracking().SingleOrDefaultAsync(c => c.DocumentId == documentId);
     public async Task CreateRangeAsync(List<Client> clients) => await _context.Clients.AddRangeAsync(clients);
     public void UpdateRange(List<Client> clients) => _context.UpdateRange(clients);
 }

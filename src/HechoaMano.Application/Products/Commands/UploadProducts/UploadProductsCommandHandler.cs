@@ -27,7 +27,49 @@ public class UploadProductsCommandHandler(
             throw new FileWithNoRecordsException();
         }
 
-        await _repository.CreateProductsAsync(products);
+        await CreateOrUpdateProduct(products);
         await _unitOfWork.SaveChangeAsync(cancellationToken);
+    }
+
+    private async Task CreateOrUpdateProduct(List<Product> products)
+    {
+        List<Product> productsForUpdate = [];
+
+        foreach (var product in products)
+        {
+            var existingProduct = await _repository.GetProductNoTrackingAsync(product.Id);
+
+            if (existingProduct != null)
+            {
+                existingProduct = Product.Create(
+                    existingProduct.Id,
+                    product.Name,
+                    product.FamilyTypeId,
+                    product.FamilyId,
+                    product.SubFamilyId,
+                    product.SizeId,
+                    product.RegionId,
+                    existingProduct.ProductStock,
+                    product.SellPrice,
+                    product.BuyPrice,
+                    existingProduct.CreatedDate
+                );
+
+                productsForUpdate.Add(existingProduct);
+            }
+        }
+
+        if (productsForUpdate.Count > 0)
+        {
+            var productsForUpdateIds = productsForUpdate.Select(x => x.Id);
+            var productsForCreate = products.Where(p => !productsForUpdateIds.Contains(p.Id)).ToList();
+
+            _repository.UpdateProducts(productsForUpdate);
+            await _repository.CreateProductsAsync(productsForCreate);
+        }
+        else
+        {
+            await _repository.CreateProductsAsync(products);
+        }
     }
 }

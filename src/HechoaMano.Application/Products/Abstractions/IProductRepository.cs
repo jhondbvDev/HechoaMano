@@ -9,7 +9,9 @@ public  interface IProductRepository
     #region Products
 
     Task<List<Product>> GetAllProductsAsync();
+
     Task<Product?> GetProductAsync(ProductId id);
+    Task<Product?> GetProductNoTrackingAsync(ProductId id);
     Task CreateProductsAsync(List<Product> products);
     void UpdateProducts(List<Product> products);
 

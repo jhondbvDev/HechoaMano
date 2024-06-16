@@ -40,6 +40,19 @@ public sealed class Client : AggregateRoot<UserId>
         UpdatedDate = updatedDate;
     }
 
+    public static Client Create(
+        UserId id,
+        string name,
+        string documentId,
+        ContactInformation contactInfo,
+        string shopName,
+        decimal discount,
+        DateTime createdDate)
+    {
+        return new(id, name, documentId, contactInfo, shopName, discount, createdDate, DateTime.Now);
+    }
+
+
     public static Client Create(string name, string documentId, ContactInformation contactInfo, string shopName, decimal discount)
     {
         return new(UserId.Create(), name, documentId, contactInfo, shopName, discount, DateTime.Now, DateTime.Now);

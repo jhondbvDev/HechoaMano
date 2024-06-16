@@ -129,6 +129,39 @@ public class Product : AggregateRoot<ProductId>
             DateTime.Now);
     }
 
+    public static Product Create(
+        ProductId id,
+        string name,
+        Guid? familyTypeId,
+        Guid familyId,
+        Guid? subFamilyId,
+        Guid? sizeId,
+        Guid regionId,
+        ProductStock productStock,
+        decimal sellPrice,
+        decimal buyPrice,
+        DateTime createdDate)
+    {
+        return new(
+            id,
+            name,
+            familyTypeId,
+            null!,
+            familyId,
+            null!,
+            subFamilyId,
+            null!,
+            sizeId,
+            null!,
+            regionId,
+            null!,
+            productStock,
+            sellPrice,
+            buyPrice,
+            createdDate,
+            DateTime.Now);
+    }
+
     public void AddStock(int quantity)
     {
         ProductStock = ProductStock.Create(ProductStock.Value + quantity);

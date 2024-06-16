@@ -25,6 +25,11 @@ public sealed class Employee : AggregateRoot<UserId>
         UpdatedDate = updatedDate;
     }
 
+    public static Employee Create(UserId id, string name, string documentId, DateTime createdDate)
+    {
+        return new(id, name, documentId, createdDate, DateTime.Now);
+    }
+
     public static Employee Create(string name, string documentId) 
     {
         return new(UserId.Create(), name, documentId, DateTime.Now, DateTime.Now);
