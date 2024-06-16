@@ -1,22 +1,21 @@
 ﻿using HechoaMano.Application.Common.Abstractions;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-using HechoaMano.Domain.Primitives.Abstractions;
-using HechoaMano.Domain.Products.Entities;
-using HechoaMano.Domain.Common.Models;
-using HechoaMano.Domain.Products;
 using HechoaMano.Domain.Clients;
+using HechoaMano.Domain.Common.Models;
 using HechoaMano.Domain.Employees;
 using HechoaMano.Domain.Inventory.Aggregates;
 using HechoaMano.Domain.Inventory.Entities;
-using System.Reflection;
+using HechoaMano.Domain.Products;
+using HechoaMano.Domain.Products.Entities;
+using HechoaMano.Infrastructure.Persistence.Interceptors;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Reflection;
 
 namespace HechoaMano.Infrastructure.Persistence;
 
-public class ApplicationDbContext : DbContext, IApplicationDbContext, IUnitOfWork
+public class ApplicationDbContext : DbContext, IUnitOfWork
 {
-    private readonly IPublisher _publisher;
+    private readonly PublishDomainEventsInterceptor _publishDomainEventsInterceptor;
 
     public DbSet<Product> Products { get; set; }
     public DbSet<Client> Clients { get; set; }
@@ -36,29 +35,31 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext, IUnitOfWor
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public ApplicationDbContext() : base()
     {
-        
+
     }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IPublisher publisher)
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, PublishDomainEventsInterceptor publishDomainEventsInterceptor)
         : base(options)
     {
-        _publisher = publisher ?? throw new ArgumentNullException(nameof(publisher));
+        _publishDomainEventsInterceptor = publishDomainEventsInterceptor ?? throw new ArgumentNullException(nameof(publishDomainEventsInterceptor));
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
+        optionsBuilder.AddInterceptors(_publishDomainEventsInterceptor);
+
         //Used to generate migrations during development
         if (!optionsBuilder.IsConfigured)
         {
             var assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
 
             IConfigurationRoot configuration = new ConfigurationBuilder()
-                .SetBasePath($"{Directory.GetCurrentDirectory()}/Persistence")
+                .SetBasePath($"{Directory.GetCurrentDirectory()}")
                 .AddJsonFile($"appsettings.json")
                 .Build();
 
-            var connectionString = configuration.GetConnectionString("DefaultConnectionString");
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
             optionsBuilder.UseSqlServer(connectionString);
         }
     }
@@ -77,19 +78,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext, IUnitOfWor
 
     public async Task<int> SaveChangeAsync(CancellationToken cancellationToken = new CancellationToken())
     {
-        var domainEvents = ChangeTracker.Entries<IAggregateRoot>()
-            .Select(x => x.Entity)
-            .Where(x => x.DomainEvents.Count != 0)
-            .SelectMany(x => x.DomainEvents);
-
-        var result = await base.SaveChangesAsync(cancellationToken);
-
-        foreach (var domainEvent in domainEvents)
-        {
-            await _publisher.Publish(domainEvent, cancellationToken);
-        }
-
-        return result;
+        return await base.SaveChangesAsync(cancellationToken);
     }
 
     private static void SeedFamily(ModelBuilder modelBuilder)

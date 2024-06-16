@@ -26,6 +26,7 @@ public class InventoryRepository(ApplicationDbContext context) : IInventoryRepos
         var recordToDelete = await _context.ClientOrders.SingleOrDefaultAsync(c => c.Id == orderId) ?? throw new RecordNotFoundException(orderId.ToString());
 
         context.ClientOrders.Remove(recordToDelete);
+        recordToDelete.NotifyDelete();
     }
     #endregion
 
@@ -39,6 +40,7 @@ public class InventoryRepository(ApplicationDbContext context) : IInventoryRepos
         var recordToDelete = await _context.EmployeeOrders.SingleOrDefaultAsync(e => e.Id == orderId) ?? throw new RecordNotFoundException(orderId.ToString());
 
         context.EmployeeOrders.Remove(recordToDelete);
+        recordToDelete.NotifyDelete();
     }
     #endregion
 }

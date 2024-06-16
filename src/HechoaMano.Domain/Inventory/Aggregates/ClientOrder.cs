@@ -1,6 +1,7 @@
 ﻿using HechoaMano.Domain.Common.Models;
 using HechoaMano.Domain.Common.ValueObjects;
 using HechoaMano.Domain.Inventory.Entities;
+using HechoaMano.Domain.Inventory.Events;
 
 namespace HechoaMano.Domain.Inventory.Aggregates;
 
@@ -38,6 +39,21 @@ public class ClientOrder : AggregateRoot<Guid>
         List<OrderDetail> details,
         decimal totalPrice)
     {
-        return new(Guid.NewGuid(), clientId, details, totalPrice, DateTime.Now);
+        var clientOrder = new ClientOrder(
+            Guid.NewGuid(),
+            clientId,
+            details,
+            totalPrice,
+            DateTime.Now
+        );
+
+        clientOrder.AddDomainEvent(new ClientOrderCreated(clientOrder));
+
+        return clientOrder;
+    }
+
+    public void NotifyDelete()
+    {
+        AddDomainEvent(new ClientOrderDeleted(this));
     }
 }

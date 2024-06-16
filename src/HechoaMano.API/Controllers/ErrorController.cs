@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Newtonsoft.Json;
 
 namespace HechoaMano.API.Controllers
 {
-
     public class ErrorController : ControllerBase
     {
         [Route("/error")]
@@ -24,6 +24,15 @@ namespace HechoaMano.API.Controllers
                 }
 
                 return ValidationProblem(modelStateDictionary);
+            }
+
+            //TODO: Think about a better way to handle this to preserve maintainability
+            if (exception is InsufficientStockException insufficientStockException)
+            {
+                return Problem(
+                    statusCode: insufficientStockException.StatusCode, 
+                    title: insufficientStockException.ErrorMessage, 
+                    detail: JsonConvert.SerializeObject(insufficientStockException.FailedProducts));
             }
 
             var (statusCode, message) = exception switch

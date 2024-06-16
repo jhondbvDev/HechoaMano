@@ -12,9 +12,6 @@ public class DeleteEmployeeOrderCommandHandler(IInventoryRepository repository, 
     public async Task Handle(DeleteEmployeeOrderCommand request, CancellationToken cancellationToken)
     {
         await _repository.DeleteEmployeeOrderAsync(request.OrderId);
-
-        //TODO: ask, should I revert the stock?
-
         await _unitOfWork.SaveChangeAsync(cancellationToken);
     }
 }

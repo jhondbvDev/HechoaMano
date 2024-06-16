@@ -13,6 +13,7 @@ public class ProductRepository(ApplicationDbContext context) : IProductRepositor
     #region Products
     public async Task<List<Product>> GetAllProductsAsync() => 
         await _context.Products
+            .AsNoTrackingWithIdentityResolution()
             .Include(p => p.FamilyType)
             .Include(p => p.Family)
             .Include(p => p.SubFamily)

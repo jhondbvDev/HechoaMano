@@ -1,5 +1,7 @@
 ﻿using FluentValidation;
 using HechoaMano.Application.Common.Behaviors;
+using HechoaMano.Application.Products.Events;
+using HechoaMano.Domain.Inventory.Events;
 using Mapster;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;

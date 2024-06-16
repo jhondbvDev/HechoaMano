@@ -68,6 +68,7 @@ public class Product : AggregateRoot<ProductId>
     }
 
     public static Product Create(
+        Guid id,
         string name,
         FamilyType familyType,
         Family family,
@@ -78,7 +79,7 @@ public class Product : AggregateRoot<ProductId>
         decimal buyPrice) 
     {
         return new(
-            ProductId.Create(),
+            ProductId.Create(id),
             name,
             familyType.Id,
             familyType,
@@ -98,6 +99,7 @@ public class Product : AggregateRoot<ProductId>
     }
 
     public static Product Create(
+        Guid id,
         string name,
         Guid? familyTypeId,
         Guid familyId,
@@ -108,7 +110,7 @@ public class Product : AggregateRoot<ProductId>
         decimal buyPrice)
     {
         return new(
-            ProductId.Create(),
+            ProductId.Create(id),
             name,
             familyTypeId,
             null!,
@@ -125,5 +127,15 @@ public class Product : AggregateRoot<ProductId>
             buyPrice,
             DateTime.Now,
             DateTime.Now);
+    }
+
+    public void AddStock(int quantity)
+    {
+        ProductStock = ProductStock.Create(ProductStock.Value + quantity);
+    }
+
+    public void RemoveStock(int quantity)
+    {
+        ProductStock = ProductStock.Create(ProductStock.Value - quantity);
     }
 }

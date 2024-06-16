@@ -28,9 +28,6 @@ public class CreateEmployeeOrderCommandHandler(IInventoryRepository repository, 
         );
 
         await _repository.AddEmployeeOrderAsync(employeeOrder);
-
-        //TODO: Add Domain Event to alter product stock
-
         await _unitOfWork.SaveChangeAsync(cancellationToken);
     }
 }

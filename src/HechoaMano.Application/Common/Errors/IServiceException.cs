@@ -1,8 +1,7 @@
-﻿namespace HechoaMano.Application.Common.Errors
+﻿namespace HechoaMano.Application.Common.Errors;
+
+public interface IServiceException
 {
-    public interface IServiceException
-    {
-        int StatusCode { get; }
-        string ErrorMessage { get; }
-    }
+    int StatusCode { get; }
+    string ErrorMessage { get; }
 }

@@ -4,9 +4,9 @@ namespace HechoaMano.Domain.Clients.ValueObjects
 {
     public sealed class ContactInformation : ValueObject
     {
-        public string Address { get; }
-        public string PhoneNumber { get; }
-        public string City { get; }
+        public string Address { get; private set; }
+        public string PhoneNumber { get; private set; }
+        public string City { get; private set; }
 
         private ContactInformation(string address, string phoneNumber, string city)
         {

@@ -5,7 +5,7 @@ namespace HechoaMano.Domain.Common.Models;
 public abstract class AggregateRoot<TId> : Entity<TId>, IAggregateRoot
 {
     private readonly List<DomainEvent> _domainEvents = [];
-    public ICollection<DomainEvent> DomainEvents => _domainEvents;
+    public IReadOnlyList<DomainEvent> DomainEvents => _domainEvents.AsReadOnly();
 
     public AggregateRoot()
     {
@@ -21,4 +21,6 @@ public abstract class AggregateRoot<TId> : Entity<TId>, IAggregateRoot
     {
         _domainEvents.Add(domainEvent);
     }
+
+    public void ClearDomainEvents() =>  _domainEvents.Clear();
 }

@@ -14,7 +14,7 @@ namespace HechoaMano.Infrastructure.Services.Common
     {
         private readonly string[] clientFileHeaders = ["Documento", "Nombre", "Direccion", "Telefono", "Ciudad", "Nombre Tienda", "Descuento"];
         private readonly string[] employeeFileHeaders = ["Documento", "Nombre"];
-        private readonly string[] productFileHeaders = ["Nombre", "Familia", "SubFamilia", "Tipo", "Tamano", "Region", "Costo", "Precio Venta"];
+        private readonly string[] productFileHeaders = ["Id","Nombre", "Familia", "SubFamilia", "Tipo", "Tamano", "Region", "Costo", "Precio Venta"];
 
         public bool ExtractClientsFromFile(IFormFile file, out List<Client> clients)
         {
@@ -101,16 +101,18 @@ namespace HechoaMano.Infrastructure.Services.Common
 
                 for (int i = worksheet.Dimension.Start.Row + 1; i < worksheet.Dimension.End.Row; i++)
                 {
-                    var name = worksheet.Cells[i, 1].Value.ToString()!;
-                    var familyTypeId = worksheet.Cells[i, 4].Value?.ToString();
-                    var familyId = Guid.Parse(worksheet.Cells[i, 2].Value.ToString()!);
-                    var subFamilyId = worksheet.Cells[i, 3].Value?.ToString();
-                    var sizeId = worksheet.Cells[i, 5].Value?.ToString();
-                    var regionId = Guid.Parse(worksheet.Cells[i, 6].Value.ToString()!);
-                    var sellPrice = Convert.ToDecimal(worksheet.Cells[i, 8].Value.ToString());
-                    var buyPrice = Convert.ToDecimal(worksheet.Cells[i, 7].Value.ToString());
+                    var id = Guid.Parse(worksheet.Cells[i, 1].Value.ToString()!);
+                    var name = worksheet.Cells[i, 2].Value.ToString()!;
+                    var familyTypeId = worksheet.Cells[i, 5].Value?.ToString();
+                    var familyId = Guid.Parse(worksheet.Cells[i, 3].Value.ToString()!);
+                    var subFamilyId = worksheet.Cells[i, 4].Value?.ToString();
+                    var sizeId = worksheet.Cells[i, 6].Value?.ToString();
+                    var regionId = Guid.Parse(worksheet.Cells[i, 7].Value.ToString()!);
+                    var sellPrice = Convert.ToDecimal(worksheet.Cells[i, 9].Value.ToString());
+                    var buyPrice = Convert.ToDecimal(worksheet.Cells[i, 8].Value.ToString());
 
                     products.Add(Product.Create(
+                        id,
                         name,
                         !string.IsNullOrWhiteSpace(familyTypeId) ? Guid.Parse(familyTypeId) : null,
                         familyId,
