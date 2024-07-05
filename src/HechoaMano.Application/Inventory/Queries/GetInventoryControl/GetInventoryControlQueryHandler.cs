@@ -22,7 +22,7 @@ namespace HechoaMano.Application.Inventory.Queries.GetInventoryControl
 
             foreach (var item in inventoryControl.Details)
             {
-                var product = await _productRepository.GetProductAsync(item.ProductId);
+                var product = await _productRepository.GetDetailedProductAsync(item.ProductId);
                 details.Add((item,product).Adapt<InventoryDetailResult>());
             }
 

@@ -21,6 +21,14 @@ public class ProductRepository(ApplicationDbContext context) : IProductRepositor
             .Include(p => p.Region)
             .ToListAsync();
     public async Task<Product?> GetProductAsync(ProductId id) => await _context.Products.SingleOrDefaultAsync(x => x.Id == id);
+    public async Task<Product?> GetDetailedProductAsync(ProductId id) => 
+        await _context.Products
+        .Include(p => p.FamilyType)
+        .Include(p => p.Family)
+        .Include(p => p.SubFamily)
+        .Include(p => p.Size)
+        .Include(p => p.Region)
+        .SingleOrDefaultAsync(x => x.Id == id);
     public async Task<Product?> GetProductNoTrackingAsync(ProductId id) => await _context.Products.AsNoTracking().SingleOrDefaultAsync(x => x.Id == id);
     public async Task CreateProductsAsync(List<Product> products) => await _context.Products.AddRangeAsync(products);
     public void UpdateProducts(List<Product> products) => _context.UpdateRange(products);

@@ -28,7 +28,7 @@ public class GetEmployeeOrderQueryHandler(
 
         foreach (var item in employeeOrder.Details)
         {
-            var product = await _productRepository.GetProductAsync(item.ProductId);
+            var product = await _productRepository.GetDetailedProductAsync(item.ProductId);
             details.Add((item, product).Adapt<OrderDetailResult>());
         }
 

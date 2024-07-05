@@ -3,7 +3,6 @@ using HechoaMano.Application.Common.Errors;
 using HechoaMano.Application.Inventory.Abstractions;
 using HechoaMano.Application.Inventory.Common;
 using HechoaMano.Application.Products.Abstractions;
-using HechoaMano.Domain.Inventory.Aggregates;
 using Mapster;
 using MediatR;
 
@@ -27,11 +26,14 @@ namespace HechoaMano.Application.Inventory.Queries.GetClientOrder
 
             foreach (var item in clientOrder.Details)
             {
-                var product = await _productRepository.GetProductAsync(item.ProductId);
+                var product = await _productRepository.GetDetailedProductAsync(item.ProductId);
                 details.Add((item, product).Adapt<OrderDetailResult>());
             }
 
-            return (clientOrder, clientData, details).Adapt<DetailedClientOrderResult>();
+            var subtotal = details.Sum(x => x.Price * x.Quantity);
+            var calculatedDiscount = subtotal - clientOrder.TotalPrice;
+
+            return (clientOrder, clientData, details, subtotal, calculatedDiscount).Adapt<DetailedClientOrderResult>();
         }
     }
 }
